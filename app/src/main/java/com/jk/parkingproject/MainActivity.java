@@ -2,10 +2,6 @@ package com.jk.parkingproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-<<<<<<< HEAD
-
-=======
->>>>>>> 5c4312a35d91d5fae7f0ce44182132bc98cf980f
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,12 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-        setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, ParkingListActivity.class);
-        startActivity(intent);
-=======
+        setContentView(R.layout.activity_main);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -81,6 +73,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
->>>>>>> 5c4312a35d91d5fae7f0ce44182132bc98cf980f
     }
 }

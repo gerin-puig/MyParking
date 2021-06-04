@@ -37,6 +37,7 @@ public class ParkingListActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
+        // set selected tabs color
         tabs.setSelectedTabIndicatorColor(Color.parseColor("#FF0000"));
         tabs.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#ffffff"));
 

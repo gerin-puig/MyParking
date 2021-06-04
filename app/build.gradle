@@ -29,11 +29,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-<<<<<<< HEAD
-    buildFeatures{
-=======
+
     buildFeatures {
->>>>>>> 5c4312a35d91d5fae7f0ce44182132bc98cf980f
         viewBinding true
     }
 }

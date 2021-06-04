@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -57,6 +59,8 @@ public class AddNewParking extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
+                        AddNewParking.this.binding.btnSelectDate.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.date_time_selected)));
+                        AddNewParking.this.binding.btnSelectDate.setTextColor(getResources().getColor(R.color.black));
                         AddNewParking.this.binding.btnSelectDate.setText(day+" - "+month+" - "+year);
                     }
                 }, mYear, mMonth, mDay);
@@ -77,9 +81,12 @@ public class AddNewParking extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
 
+                        AddNewParking.this.binding.btnSelectTime.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.date_time_selected)));
+                        AddNewParking.this.binding.btnSelectTime.setTextColor(getResources().getColor(R.color.black));
+
                         AddNewParking.this.binding.btnSelectTime.setText(hour+" : "+minute);
                     }
-                }, mHour, mMinute, false);
+                }, mHour, mMinute, true);
 
                 timePickerDialog.show();
 
@@ -106,24 +113,24 @@ public class AddNewParking extends AppCompatActivity {
 
         Boolean isValid = true;
 
-        if(this.binding.etBuildingCode.getText().toString().isEmpty()){
+        if(this.binding.etBuildingCode.getText().toString().trim().isEmpty()){
 
             this.binding.etBuildingCode.setError("Enter a building code");
             isValid = false;
 
         }
 
-        else if(this.binding.etBuildingCode.getText().toString().length() != 5){
+        else if(this.binding.etBuildingCode.getText().toString().trim().length() != 5){
             Snackbar.make(this, this.binding.getRoot(), "Building code should be exactly 5 characters", Snackbar.LENGTH_SHORT).show();
             isValid = false;
         }
 
-        else if(this.binding.etSuiteNumber.getText().toString().isEmpty()){
+        else if(this.binding.etSuiteNumber.getText().toString().trim().isEmpty()){
             this.binding.etSuiteNumber.setError("Enter a suite number");
             isValid = false;
         }
 
-        else if(this.binding.etSuiteNumber.getText().toString().length() < 2 || this.binding.etSuiteNumber.getText().toString().length() > 5 ){
+        else if(this.binding.etSuiteNumber.getText().toString().trim().length() < 2 || this.binding.etSuiteNumber.getText().toString().trim().length() > 5 ){
             Snackbar.make(this, this.binding.getRoot(), "Suit number code should be 2 to 5 characters long", Snackbar.LENGTH_SHORT).show();
             isValid = false;
         }
