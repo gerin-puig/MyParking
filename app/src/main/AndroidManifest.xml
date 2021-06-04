@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkingProject">
+<<<<<<< HEAD
         <activity android:name=".AddNewParking"
 
             />
@@ -18,6 +19,9 @@
             android:theme="@style/Theme.ParkingProject.NoActionBar"
 
             />
+=======
+        <activity android:name=".SignUpActivity"></activity>
+>>>>>>> 5c4312a35d91d5fae7f0ce44182132bc98cf980f
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
