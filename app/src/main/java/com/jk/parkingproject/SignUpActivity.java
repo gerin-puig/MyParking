@@ -33,7 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        
+
     }
 
     private boolean checkUserInput(String email, String password, String fname, String lname, String pNum, String plateNum){

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(view);
 
         binding.btnLogin.setOnClickListener(this);
+        binding.btnSignUp.setOnClickListener(this);
         binding.editEmail.setOnClickListener(this);
         binding.editPassword.setOnClickListener(this);
 
