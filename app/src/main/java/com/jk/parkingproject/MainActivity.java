@@ -2,6 +2,7 @@ package com.jk.parkingproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -61,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(task.isSuccessful()){
                     Log.d(TAG, "onComplete: User Found");
                     //FirebaseUser user = fba.getCurrentUser();
-
+                    Intent intent = new Intent(MainActivity.this, ParkingListActivity.class);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(MainActivity.this, "Authentication failed.",
