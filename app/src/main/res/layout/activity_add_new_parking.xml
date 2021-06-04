@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddNewParking">
+
+
+    <LinearLayout
+        android:id="@+id/llTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llSelectCar"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD NEW PARKING"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textStyle="bold"
+            android:textColor="@color/purple_700"
+            android:textAlignment="center"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llSelectCar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="1"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Select Car:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textAlignment="textEnd"
+            android:layout_weight="0.4"
+            />
+
+        <Spinner
+            android:id="@+id/spinnerSelectCar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llBuildingCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llSelectCar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llHouseSuiteNumber"
+        android:weightSum="1"
+        >
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Building Code:"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textAlignment="textEnd"
+        android:layout_weight="0.4"
+        />
+
+    <EditText
+        android:id="@+id/et_BuildingCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="5 alphanum characters "
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_weight="0.6"
+        />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llHouseSuiteNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llBuildingCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="1"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Suite Number:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textAlignment="textEnd"
+            android:layout_weight="0.4"
+            />
+
+        <EditText
+            android:id="@+id/et_SuiteNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="min 2, max 5 characters"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_weight="0.6"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llNoOfHours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llHouseSuiteNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/llParkingLocation"
+        android:weightSum="1"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="No. of hours:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textAlignment="textEnd"
+            android:layout_weight="0.4"
+            />
+
+        <Spinner
+            android:id="@+id/spinnerNoOfHours"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llParkingLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llNoOfHours"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llParkingDateAndTime"
+        android:weightSum="1"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Location:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textAlignment="textEnd"
+            android:layout_weight="0.4"
+            />
+
+        <EditText
+            android:id="@+id/et_ParkingLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="enter location"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_weight="0.5"
+            android:maxLines="1"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llParkingDateAndTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/llParkingLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="1"
+        >
+
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Date &amp; time:"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textAlignment="textEnd"-->
+<!--            android:layout_weight="0.3"-->
+<!--            />-->
+
+        <Button
+            android:id="@+id/btnSelectDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="Select date"
+            android:backgroundTint="#DBDFDF"
+            />
+
+        <Button
+            android:id="@+id/btnSelectTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:layout_marginLeft="20sp"
+            android:text="Select Time"
+            android:backgroundTint="#DBDFDF"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llParkingLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/purple_500"
+            />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
