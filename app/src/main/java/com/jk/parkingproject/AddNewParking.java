@@ -17,6 +17,8 @@ import android.widget.TimePicker;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.jk.parkingproject.databinding.ActivityAddNewParkingBinding;
+import com.jk.parkingproject.models.Parking;
+import com.jk.parkingproject.viewmodels.ParkingViewModel;
 
 import java.util.Calendar;
 
@@ -25,6 +27,9 @@ public class AddNewParking extends AppCompatActivity {
     ActivityAddNewParkingBinding binding;
     String[] cars = {"Tesla - CD12 AQ8238", "Benz - RD007 BNZ143", "Hummer EV - RUDE BST"};
     String[] noOfHours = {"less than an hour", "less than 4 hours", "less than 12 hours", "24 hours"};
+
+    private Parking newParking = new Parking();
+    private ParkingViewModel parkingViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,9 @@ public class AddNewParking extends AppCompatActivity {
         this.binding = ActivityAddNewParkingBinding.inflate(getLayoutInflater());
         View view = this.binding.getRoot();
         setContentView(view);
+
+        this.parkingViewModel = ParkingViewModel.getInstance(this.getApplication());
+        newParking = new Parking();
 
         ArrayAdapter carListAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, cars);
         carListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -62,6 +70,7 @@ public class AddNewParking extends AppCompatActivity {
                         AddNewParking.this.binding.btnSelectDate.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.date_time_selected)));
                         AddNewParking.this.binding.btnSelectDate.setTextColor(getResources().getColor(R.color.black));
                         AddNewParking.this.binding.btnSelectDate.setText(day+" - "+month+" - "+year);
+                        newParking.setDateOfParking(c.getTime());
                     }
                 }, mYear, mMonth, mDay);
 
@@ -99,6 +108,8 @@ public class AddNewParking extends AppCompatActivity {
 
                 if(validateData()){
                     // add parking to Firebase
+
+                    saveDataToFirebase();
 
                 }
 
@@ -149,5 +160,14 @@ public class AddNewParking extends AppCompatActivity {
         return isValid;
     }
 
+    private void saveDataToFirebase(){
 
+        this.newParking.setCarNumber(this.binding.spinnerSelectCar.getSelectedItem().toString());
+        this.newParking.setBuildingCode(this.binding.etBuildingCode.getText().toString());
+        this.newParking.setHostSuiteNumber(this.binding.etSuiteNumber.getText().toString());
+        this.newParking.setNoOfHours(this.binding.spinnerNoOfHours.getSelectedItem().toString());
+
+        this.parkingViewModel.addParking(newParking);
+
+    }
 }

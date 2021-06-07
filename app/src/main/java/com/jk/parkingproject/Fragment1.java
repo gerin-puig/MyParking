@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 public class Fragment1 extends Fragment {
 
-
+    TextView tvParkingInfo;
 
     @Nullable
     @Override
@@ -25,7 +25,7 @@ public class Fragment1 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView tvParkingInfo = view.findViewById(R.id.tvParkingInfoMsg);
+        tvParkingInfo = view.findViewById(R.id.tvParkingInfoMsg);
 
         tvParkingInfo.setText("Rajdeep");
 
@@ -33,6 +33,10 @@ public class Fragment1 extends Fragment {
 
     private void getAllParkings(){
 
+
+    }
+
+    private void getCurrentUserFromSharedPref(){
 
 
     }
