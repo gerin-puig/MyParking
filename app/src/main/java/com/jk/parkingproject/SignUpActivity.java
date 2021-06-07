@@ -3,22 +3,31 @@ package com.jk.parkingproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 
 import com.jk.parkingproject.databinding.ActivitySignupBinding;
+import com.jk.parkingproject.models.ParkingUser;
+import com.jk.parkingproject.viewmodels.UserViewModel;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivitySignupBinding binding;
+
+    private UserViewModel userViewModel;
+
+    private String TAG = "MyDebug";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
+        this.binding.btnSignUp.setOnClickListener(this);
 
+        userViewModel = UserViewModel.getInstance(getApplication());
     }
 
     private void SignUp(){
@@ -33,7 +42,11 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
+        ParkingUser newUser = new ParkingUser(fname,lname,pNum,email,password,plateNum);
 
+        userViewModel.addNewUser(newUser, this);
+
+        Log.d(TAG, "SignUp: saved to DB: " + newUser.toString());
     }
 
     private boolean checkUserInput(String email, String password, String fname, String lname, String pNum, String plateNum){
@@ -42,14 +55,21 @@ public class SignUpActivity extends AppCompatActivity {
             binding.editEmail.setError("Email Required.");
             isValid = false;
         }
+
         if(password.isEmpty()){
             binding.editPassword.setError("Password Required.");
             isValid = false;
         }
+        else if(password.length() <= 5){
+            binding.editPassword.setError("Password length must be 6 or more.");
+            isValid = false;
+        }
+
         if(fname.isEmpty()){
             binding.editFirstName.setError("First Name Required.");
             isValid = false;
         }
+
         if(lname.isEmpty()){
             binding.editLastName.setError("Last Name Required.");
             isValid = false;
@@ -63,5 +83,16 @@ public class SignUpActivity extends AppCompatActivity {
             isValid = false;
         }
         return  isValid;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v != null){
+            switch (v.getId()){
+                case R.id.btn_sign_up:
+                    SignUp();
+                    break;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.jk.parkingproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,13 +19,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.jk.parkingproject.databinding.ActivityMainBinding;
+import com.jk.parkingproject.viewmodels.UserViewModel;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityMainBinding binding;
 
     ParkingSharedPrefs psp;
-//will move
-    private FirebaseAuth fba = FirebaseAuth.getInstance();
+    private UserViewModel userViewModel;
 
     private String TAG = "MyDebug";
     @Override
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.editPassword.setOnClickListener(this);
 
         psp = new ParkingSharedPrefs(this);
+        userViewModel = UserViewModel.getInstance(getApplication());
     }
 
     @Override
@@ -68,19 +70,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        fba.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        userViewModel.signIn(email, password, this);
+        //checks if user sign in is successful
+        userViewModel.isAuthenticated.observe(this, new Observer<Boolean>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Log.d(TAG, "onComplete: User Found");
-                    //FirebaseUser user = fba.getCurrentUser();
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean == null)
+                    return;
+
+                if (aBoolean) {
                     psp.setCurrentUser(email);
                     Intent intent = new Intent(MainActivity.this, ParkingListActivity.class);
                     startActivity(intent);
-                }
-                else{
-                    Toast.makeText(MainActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
