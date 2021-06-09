@@ -1,8 +1,9 @@
 package com.jk.parkingproject.models;
 
+import java.io.Serializable;
 import java.lang.ref.SoftReference;
 
-public class ParkingUser {
+public class ParkingUser implements Serializable {
     private String id;
     private String first_name;
     private String last_name;
@@ -10,6 +11,7 @@ public class ParkingUser {
     private String email;
     private String password;
     private String plate_number;
+    private boolean isActive;
 
     public ParkingUser(String first_name, String last_name, String phone_number, String email, String password, String plate_number) {
         this.first_name = first_name;

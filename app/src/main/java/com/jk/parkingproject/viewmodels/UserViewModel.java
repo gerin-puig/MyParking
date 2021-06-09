@@ -14,6 +14,7 @@ public class UserViewModel extends AndroidViewModel {
     private final ParkingRepository parkingRepository = new ParkingRepository();
 
     public MutableLiveData<Boolean> isAuthenticated;
+    public MutableLiveData<ParkingUser> myUser;
 
     public static UserViewModel getInstance(Application app){
         if(myInstance == null){
@@ -35,5 +36,14 @@ public class UserViewModel extends AndroidViewModel {
     public void signIn(String email, String password, Context context){
         parkingRepository.signIn(email,password,context);
         isAuthenticated = parkingRepository.isAuthenticated;
+    }
+
+    public void getUser(String id){
+        parkingRepository.getUser(id);
+        myUser = parkingRepository.thisUser;
+    }
+
+    public void updateUser(ParkingUser user){
+        parkingRepository.updateUser(user);
     }
 }
