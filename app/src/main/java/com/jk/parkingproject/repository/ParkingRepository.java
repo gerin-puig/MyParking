@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.UpdateDocumentRequest;
 import com.jk.parkingproject.MainActivity;
 import com.jk.parkingproject.ParkingListActivity;
 import com.jk.parkingproject.ParkingSharedPrefs;
@@ -38,6 +40,7 @@ public class ParkingRepository {
     private final String TAG1 = "MyDebug";
 
     public MutableLiveData<Boolean> isAuthenticated = new MutableLiveData<Boolean>();
+    public MutableLiveData<ParkingUser> thisUser = new MutableLiveData<ParkingUser>();
 
     public ParkingRepository(){
         db = FirebaseFirestore.getInstance();
@@ -105,7 +108,7 @@ public class ParkingRepository {
     }
 
     private void isEmailValid(String email){
-
+        
     }
 
     public void signOut(){
@@ -156,7 +159,61 @@ public class ParkingRepository {
         }
     }
 
+    public void getUser(String email){
+        try {
+            db.collection(COLLECTION_NAME).whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()){
+                        if (task.getResult().getDocuments().size() != 0){
+                            ParkingUser parkingUser = (ParkingUser) task.getResult().getDocuments().get(0).toObject(ParkingUser.class);
+                            parkingUser.setId(task.getResult().getDocuments().get(0).getId());
 
+                            thisUser.postValue(parkingUser);
+                            //Log.d(TAG, "onComplete: user found:" + parkingUser.toString());
+                        }
+                        else {
+                            Log.e(TAG, "onComplete: No user with id found");
+                        }
+                    }
+                }
+            });
+        }catch (Exception e){
+            Log.e(TAG, "search for user: " + e.getLocalizedMessage() );
+        }
+    }
+
+    public void updateUser(ParkingUser user){
+        try{
+            Map<String, Object> updateInfo = new HashMap<>();
+            updateInfo.put("first_name", user.getFirst_name());
+            updateInfo.put("last_name", user.getLast_name());
+            updateInfo.put("email", user.getEmail());
+            updateInfo.put("password", user.getPassword());
+            updateInfo.put("phone_number", user.getPhone_number());
+            updateInfo.put("plate_number", user.getPlate_number());
+
+            db.collection(COLLECTION_NAME).document(user.getId()).update(updateInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "onSuccess: document was updated!");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: document update has failed!");
+                }
+            });
+        }catch (Exception e){
+            Log.e(TAG, "updateFriend: unable to update doc " + e.getLocalizedMessage() );
+        }
+    }
+
+    public void disableUser(boolean disable){
+
+        FirebaseUser user = myAuth.getCurrentUser();
+        //.
+    }
 
 }
 
