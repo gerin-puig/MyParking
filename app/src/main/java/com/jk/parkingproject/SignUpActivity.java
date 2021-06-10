@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
-        ParkingUser newUser = new ParkingUser(fname,lname,pNum,email,password,plateNum);
+        ParkingUser newUser = new ParkingUser(fname,lname,pNum,email,password,plateNum, true);
 
         userViewModel.addNewUser(newUser, this);
 
