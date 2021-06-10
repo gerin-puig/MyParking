@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.jk.parkingproject.databinding.ActivityParkingDetailsBinding;
+import com.jk.parkingproject.models.Parking;
 
 public class ParkingDetailsActivity extends AppCompatActivity {
 
     ActivityParkingDetailsBinding binding;
+    Parking currentParking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,16 +20,20 @@ public class ParkingDetailsActivity extends AppCompatActivity {
         View view = this.binding.getRoot();
         setContentView(view);
 
+        getSupportActionBar().hide();
+
+        currentParking = (Parking) getIntent().getSerializableExtra("currentParking");
+
         loadParkingInfoDetails();
     }
 
     private void loadParkingInfoDetails() {
 
-        this.binding.tvCarNumberParkingDetails.setText("");
-        this.binding.tvBuildingCodeParkingDetails.setText("");
-        this.binding.tvHouseSuiteNumberParkingDetails.setText("");
-        this.binding.tvNoOfHoursParkingDetails.setText("");
-        this.binding.tvDateAndTimeOfParkingParkingDetails.setText("");
+        this.binding.tvCarNumberParkingDetails.setText(currentParking.getCarPlateNumber());
+        this.binding.tvBuildingCodeParkingDetails.setText(currentParking.getBuildingCode());
+        this.binding.tvHouseSuiteNumberParkingDetails.setText(currentParking.getHostSuiteNumber());
+        this.binding.tvNoOfHoursParkingDetails.setText(currentParking.getNoOfHours());
+        this.binding.tvDateAndTimeOfParkingParkingDetails.setText(currentParking.getDateOfParking()+""+currentParking.getTimeOfParking());
         this.binding.tvParkingLocationParkingDetails.setText("");
 
     }

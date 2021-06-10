@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 
     >
 
@@ -20,8 +21,7 @@
             android:id="@+id/tvParkingInfoMsg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Parking List"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:layout_gravity="center"
             android:gravity="center"
 
@@ -37,6 +37,13 @@
         app:layout_constraintTop_toBottomOf="@id/llParkingInfoMsg"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lvParkingList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/row_layout"
+            />
 
     </LinearLayout>
 
