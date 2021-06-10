@@ -13,17 +13,27 @@ public class ParkingUser implements Serializable {
     private String plate_number;
     private boolean isActive;
 
-    public ParkingUser(String first_name, String last_name, String phone_number, String email, String password, String plate_number) {
+    public ParkingUser(String first_name, String last_name, String phone_number, String email, String password,
+                       String plate_number, boolean isActive) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone_number = phone_number;
         this.email = email;
         this.password = password;
         this.plate_number = plate_number;
+        this.isActive = isActive;
     }
 
     public ParkingUser(){
 
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public String getId() {
@@ -84,7 +94,7 @@ public class ParkingUser implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "ParkingUser{" +
                 "id='" + id + '\'' +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
@@ -92,6 +102,7 @@ public class ParkingUser implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", plate_number='" + plate_number + '\'' +
+                ", isActive=" + isActive +
                 '}';
     }
 }

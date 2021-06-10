@@ -43,7 +43,7 @@ public class UserViewModel extends AndroidViewModel {
         myUser = parkingRepository.thisUser;
     }
 
-    public void updateUser(ParkingUser user){
-        parkingRepository.updateUser(user);
+    public void updateUser(ParkingUser user, Context context){
+        parkingRepository.updateUser(user, context);
     }
 }

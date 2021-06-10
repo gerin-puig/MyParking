@@ -107,10 +107,6 @@ public class ParkingRepository {
         });
     }
 
-    private void isEmailValid(String email){
-        
-    }
-
     public void signOut(){
         myAuth.signOut();
     }
@@ -139,6 +135,7 @@ public class ParkingRepository {
             data.put("last_name", user.getLast_name());
             data.put("phone_number", user.getPhone_number());
             data.put("plate_number", user.getPlate_number());
+            data.put("isActive", user.isActive());
 
             signUpUser(user.getEmail(),user.getPassword(), context);
 
@@ -183,7 +180,7 @@ public class ParkingRepository {
         }
     }
 
-    public void updateUser(ParkingUser user){
+    public void updateUser(ParkingUser user, Context context){
         try{
             Map<String, Object> updateInfo = new HashMap<>();
             updateInfo.put("first_name", user.getFirst_name());
@@ -192,11 +189,13 @@ public class ParkingRepository {
             updateInfo.put("password", user.getPassword());
             updateInfo.put("phone_number", user.getPhone_number());
             updateInfo.put("plate_number", user.getPlate_number());
+            updateInfo.put("isActive", user.isActive());
 
             db.collection(COLLECTION_NAME).document(user.getId()).update(updateInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.d(TAG, "onSuccess: document was updated!");
+                    Toast.makeText(context, "User Updated.", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
