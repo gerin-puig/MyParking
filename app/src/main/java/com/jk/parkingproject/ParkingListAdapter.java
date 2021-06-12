@@ -1,5 +1,6 @@
 package com.jk.parkingproject;
 
+import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,36 +18,38 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class ParkingListAdapter extends ArrayAdapter<Parking> {
+public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListViewHolder> {
+
+    private List<Parking> parkings;
+    private Application application;
 
 
-    public ParkingListAdapter(@NonNull Context context, List<Parking> parkingList) {
-        super(context, 0, parkingList);
+    public ParkingListAdapter(List<Parking> pList, Application app){
+
+        this.parkings = pList;
+        this.application = app;
+
     }
 
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public ParkingListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        RowLayoutBinding rowLayoutBinding;
-
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_layout, parent,false);
-        }
-
-        Parking p = getItem(position);
-
-        rowLayoutBinding = RowLayoutBinding.bind(convertView);
-        rowLayoutBinding.tvCarPlateNumber.setText(p.getCarPlateNumber());
-        rowLayoutBinding.tvDateOfParking.setText(p.getDateOfParking().toString());
-        rowLayoutBinding.tvParkingHours.setText(p.getNoOfHours());
-
-        return convertView;
+        RowLayoutBinding binding = RowLayoutBinding.inflate(LayoutInflater.from(this.application.getApplicationContext()), parent, false);
+        return new ParkingListViewHolder(binding, application, parkings);
     }
 
-    private String formatDate(Date date){
+    @Override
+    public void onBindViewHolder(@NonNull ParkingListViewHolder holder, int position) {
 
-        return DateFormat.getDateInstance().format(date);
-
+        holder.bind(position);
     }
+
+    @Override
+    public int getItemCount() {
+
+        return this.parkings.size();
+    }
+
 }

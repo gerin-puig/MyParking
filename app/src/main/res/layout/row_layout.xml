@@ -1,84 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10sp"
+    >
 
-
-        <LinearLayout
-            android:id="@+id/ll_FirstRow"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvCarPlateNumber"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="TSL 1234 SB"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:maxLines="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_margin="10sp"
-            >
+            app:layout_constraintEnd_toStartOf="@id/tvDateOfParking"
+            />
 
-            <TextView
-                android:id="@+id/tvCarPlateNumber"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="TSL 1234 SB"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_weight="0.5"
-                android:maxLines="1"
-                />
-
-            <TextView
-                android:id="@+id/tvDateOfParking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dec 25, 2021 11:28 pm"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:textColor="@color/purple_500"
-                android:layout_weight="0.5"
-                android:textAlignment="viewEnd"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_SecondRow"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvDateOfParking"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_FirstRow"
+            android:text="Dec 25, 2021 11:28 pm"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/purple_500"
+            android:textAlignment="viewEnd"
+            app:layout_constraintStart_toEndOf="@id/tvCarPlateNumber"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_margin="10sp"
-            >
+            />
 
-            <TextView
-                android:id="@+id/tvParkingLocation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Parking location"
-                android:textSize="15sp"
-                android:textStyle="italic"
-                android:textColor="@color/black"
-                android:layout_weight="0.8"
-                android:maxLines="1"
-                />
 
-            <TextView
-                android:id="@+id/tvParkingHours"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="12 hours"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:textColor="@color/red"
-                android:layout_weight="0.2"
-                android:textAlignment="viewEnd"
-                />
+        <TextView
+            android:id="@+id/tvParkingLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Parking location"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCarPlateNumber"
+            app:layout_constraintEnd_toStartOf="@id/tvParkingHours"
+            />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvParkingHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12 hours"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/red"
+            android:textAlignment="viewEnd"
+            app:layout_constraintStart_toEndOf="@id/tvParkingLocation"
+            app:layout_constraintTop_toBottomOf="@id/tvDateOfParking"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_marginTop="5sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvParkingLocation"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,17 +4,17 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     >
 
     <LinearLayout
         android:id="@+id/llParkingInfoMsg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16sp"
+        android:layout_margin="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvBlankLine"
         >
 
         <TextView
@@ -24,26 +24,46 @@
             android:textSize="20sp"
             android:layout_gravity="center"
             android:gravity="center"
+            android:fontFamily="sans-serif-black"
+            android:textColor="#5A4848"
+            android:text="Loading data..."
 
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/rcViewParkingList"
+    <TextView
+        android:id="@+id/tvBlankLine"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16sp"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_margin="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llParkingInfoMsg"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llViewParkingList"
+        />
+
+    <LinearLayout
+        android:id="@+id/llViewParkingList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvBlankLine"
+        app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/lvParkingList"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcViewParkingList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/row_layout"
             />
+
+<!--        <ListView-->
+<!--            android:id="@+id/lvParkingList"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            tools:listitem="@layout/row_layout"-->
+<!--            />-->
 
     </LinearLayout>
 

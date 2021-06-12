@@ -34,7 +34,6 @@ public class ParkingViewModel extends AndroidViewModel {
 
         super(application);
 
-
     }
 
     public void addParking(Parking parking){

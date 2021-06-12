@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -165,23 +166,30 @@ public class ParkingRepository {
 
     }
 
-    public void signIn(String email, String password, Context context){
+    public void signIn(String email, String password, Context context) {
         myAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Log.d(TAG, "onComplete: User Found");
                     //FirebaseUser user = fba.getCurrentUser();
 
                     isAuthenticated.postValue(true);
-                }
-                else{
-                    Toast.makeText(context, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
+                } else {
+
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                        Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
                 }
             }
         });
     }
+
 
     private void isEmailValid(String email){
         

@@ -1,11 +1,15 @@
 package com.jk.parkingproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +22,11 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.jk.parkingproject.databinding.ActivityAddNewParkingBinding;
+import com.jk.parkingproject.helpers.LocationHelper;
 import com.jk.parkingproject.models.Parking;
 import com.jk.parkingproject.viewmodels.ParkingViewModel;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,8 +40,10 @@ public class AddNewParking extends AppCompatActivity {
 
     ActivityAddNewParkingBinding binding;
     ParkingSharedPrefs sharedPreferences;
+    private LocationHelper locationHelper;
     List<String> carsList = new ArrayList<>();
     private String TAG = "QWERTY";
+    private Location lastLocation;
 
 //    String[] carsList =  {"Tesla - CD12 AQ8238", "Benz - RD007 BNZ143", "Hummer EV - RUDE BST"};
     String[] noOfHours = {"less than an hour", "less than 4 hours", "less than 12 hours", "24 hours"};
@@ -53,12 +62,12 @@ public class AddNewParking extends AppCompatActivity {
         setContentView(view);
 
         sharedPreferences = new ParkingSharedPrefs(getApplicationContext());
-        Log.d(TAG, "Current user : "+sharedPreferences.getCurrentUser());
-        this.parkingViewModel = ParkingViewModel.getInstance(this.getApplication());
+        newParking = new Parking();
 
+        this.parkingViewModel = ParkingViewModel.getInstance(this.getApplication());
         this.parkingViewModel.getCarByUsername(sharedPreferences.getCurrentUser());
 
-        newParking = new Parking();
+        this.locationHelper = LocationHelper.getInstance();
 
         getCurrentUserCarPlateNumber();
 
@@ -112,8 +121,6 @@ public class AddNewParking extends AppCompatActivity {
                     }
                 }, mHour, mMinute, true);
 
-
-
                 timePickerDialog.show();
 
             }
@@ -130,9 +137,34 @@ public class AddNewParking extends AppCompatActivity {
                     Toast.makeText(AddNewParking.this, "Parking added", Toast.LENGTH_SHORT).show();
                     finish();
                 }
+            }
+        });
 
+        this.binding.imgbtnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                locationHelper.checkPermissions(AddNewParking.this);
 
+                if(locationHelper.isLocationPermissionsGranted){
+                    // permission granted
+//                    lastLocation = locationHelper.getLastLocation(AddNewParking.this);
+
+                    locationHelper.getLastLocation(AddNewParking.this).observe(AddNewParking.this, new Observer<Location>() {
+                        @Override
+                        public void onChanged(Location location) {
+                           if(location != null){
+                                lastLocation = location;
+                                binding.tvParkingLocation.setText(locationHelper.getAddress(AddNewParking.this, lastLocation));
+                                Log.e(TAG, "onClick: SUCCESS!! Last location received");
+                            }
+                            else{
+                                Log.e(TAG, "onClick: No last location received");
+                            }
+
+                        }
+                    });
+                }
             }
         });
 
@@ -208,6 +240,22 @@ public class AddNewParking extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == locationHelper.LOCATION_REQUEST_CODE){
+            this.locationHelper.isLocationPermissionsGranted = (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
+        }
+
+        if(this.locationHelper.isLocationPermissionsGranted){
+            Log.e(TAG, "onRequestPermissionsResult: PERMISSION IS GRANTED " );
+        }
+    }
+
+
+
     private Date formatDate(String date){
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -225,8 +273,6 @@ public class AddNewParking extends AppCompatActivity {
     private String formatTime(Date date){
 
         return DateFormat.getTimeInstance().format(date);
-
-
     }
 
 }

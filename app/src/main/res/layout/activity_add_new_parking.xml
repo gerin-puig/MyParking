@@ -43,15 +43,16 @@
         app:layout_constraintTop_toBottomOf="@id/llTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/et_BuildingCode"
         android:weightSum="1"
         >
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Carplate Number:"
-            android:textSize="@dimen/edittext_size"
+            android:text="Carplate No.:"
             android:textColor="@color/black"
+            android:textSize="@dimen/edittext_size"
             android:fontFamily="sans-serif-medium"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
@@ -209,16 +210,25 @@
             android:layout_weight="0.4"
             />
 
-        <EditText
-            android:id="@+id/et_ParkingLocation"
+        <TextView
+            android:id="@+id/tvParkingLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="enter location"
             android:fontFamily="sans-serif-medium"
             android:textSize="@dimen/edittext_size"
             android:textColor="@color/black"
             android:layout_weight="0.5"
             android:maxLines="1"
+            />
+
+        <ImageButton
+            android:id="@+id/imgbtnLocation"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.1"
+            android:src="@drawable/location_icon"
+            android:background="#DBDFDF"
             />
 
     </LinearLayout>
