@@ -3,6 +3,7 @@ package com.jk.parkingproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -73,6 +74,11 @@ public class EditProfileActivity extends AppCompatActivity {
             binding.editPassword.setError("Password Required.");
             isValid = false;
         }
+        else if(password.length() < 6){
+            binding.editPassword.setError("Password length must be more than 6 characters.");
+            isValid = false;
+        }
+
         if (fname.isEmpty()){
             binding.edFirstname.setError("First name Required.");
             isValid = false;

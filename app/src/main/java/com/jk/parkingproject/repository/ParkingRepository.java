@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.jk.parkingproject.ParkingSharedPrefs;
 import com.jk.parkingproject.models.Parking;
 import com.jk.parkingproject.models.ParkingUser;
 
@@ -351,6 +352,8 @@ public class ParkingRepository {
             updateInfo.put("plate_number", user.getPlate_number());
             updateInfo.put("isActive", user.isActive());
 
+            changePassword(context, user.getPassword());
+
             db.collection(COLLECTION_NAME).document(user.getId()).update(updateInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -371,9 +374,21 @@ public class ParkingRepository {
         }
     }
 
-    public void disableUser(boolean disable){
+    private void changePassword(Context context, String password){
 
         FirebaseUser user = myAuth.getCurrentUser();
+
+        user.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    ParkingSharedPrefs psp = new ParkingSharedPrefs(context.getApplicationContext());
+                    psp.setPassword(password);
+                    Log.d(TAG1, "onComplete: password updated");
+                }
+            }
+        });
+
     }
 
 }
