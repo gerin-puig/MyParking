@@ -44,10 +44,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Car Number:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
+            android:padding="2sp"
             />
 
         <TextView
@@ -55,10 +57,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
-            android:layout_weight="0.4"
+            android:layout_weight="0.6"
             />
 
     </LinearLayout>
@@ -79,7 +81,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Building Code:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
@@ -90,10 +93,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
-            android:layout_weight="0.4"
+            android:layout_weight="0.6"
             />
 
     </LinearLayout>
@@ -114,7 +118,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="House Suite No.:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
@@ -125,10 +130,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
-            android:layout_weight="0.4"
+            android:layout_weight="0.6"
             />
 
     </LinearLayout>
@@ -149,7 +155,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="No. of Hours:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
@@ -160,10 +167,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
-            android:layout_weight="0.4"
+            android:layout_weight="0.6"
             />
 
     </LinearLayout>
@@ -184,7 +192,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Date and Time:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
@@ -195,10 +204,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
-            android:layout_weight="0.4"
+            android:layout_weight="0.6"
             />
 
     </LinearLayout>
@@ -219,7 +229,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Location:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
@@ -230,13 +241,67 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
-            android:layout_weight="0.4"
+            android:layout_weight="0.6"
             />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llParkingLocationMap_ParkingDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llParkingLocationInfo_ParkingDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="1"
+        >
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llEditDeleteParking_ParkingDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llParkingLocationMap_ParkingDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="1"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/btnEditParking_ParkingDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:layout_marginRight="10dp"
+
+            />
+
+        <Button
+            android:id="@+id/btnDeleteParking_ParkingDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

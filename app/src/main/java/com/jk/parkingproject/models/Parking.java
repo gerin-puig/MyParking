@@ -1,18 +1,23 @@
 package com.jk.parkingproject.models;
 
+import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
-public class Parking {
+public class Parking implements Serializable {
 
     private String id;
-    private String carNumber;
+    private String email;
+    private String carPlateNumber;
     private String buildingCode;
     private String hostSuiteNumber;
     private Date dateOfParking;
     private String noOfHours;
+    private double latitude;
+    private double longitude;
 
-
-    public Parking(String buildingCode, String hostSuiteNumber, Date dateOfParking, String noOfHours) {
+    public Parking(String carPlateNumber, String buildingCode, String hostSuiteNumber, Date dateOfParking, String noOfHours) {
+        this.carPlateNumber = carPlateNumber;
         this.buildingCode = buildingCode;
         this.hostSuiteNumber = hostSuiteNumber;
         this.dateOfParking = dateOfParking;
@@ -23,8 +28,20 @@ public class Parking {
 
     }
 
-    public void setCarNumber(String carNumber) {
-        this.carNumber = carNumber;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setCarPlateNumber(String carPlateNumber) {
+        this.carPlateNumber = carPlateNumber;
     }
 
     public void setBuildingCode(String buildingCode) {
@@ -47,8 +64,8 @@ public class Parking {
         return id;
     }
 
-    public String getCarNumber() {
-        return carNumber;
+    public String getCarPlateNumber() {
+        return carPlateNumber;
     }
 
     public String getBuildingCode() {
@@ -65,6 +82,22 @@ public class Parking {
 
     public String getNoOfHours() {
         return noOfHours;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     @Override

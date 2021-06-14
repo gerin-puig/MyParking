@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ADD NEW PARKING"
+            android:text="NEW PARKING"
             android:textSize="40sp"
             android:fontFamily="sans-serif-condensed-medium"
             android:textStyle="bold"
@@ -43,24 +43,32 @@
         app:layout_constraintTop_toBottomOf="@id/llTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/et_BuildingCode"
         android:weightSum="1"
         >
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Select Car:"
-            android:textSize="20sp"
+            android:text="Carplate No.:"
             android:textColor="@color/black"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
             />
 
-        <Spinner
-            android:id="@+id/spinnerSelectCar"
+        <EditText
+            android:id="@+id/etCarPlateNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
+            android:textSize="@dimen/edittext_size"
+            android:textColor="@color/black"
+            android:inputType="text"
+            android:maxLines="1"
+            android:maxLength="8"
+            android:fontFamily="sans-serif-medium"
             />
 
     </LinearLayout>
@@ -82,10 +90,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Building Code:"
-        android:textSize="20sp"
+        android:textSize="@dimen/edittext_size"
+        android:fontFamily="sans-serif-medium"
         android:textColor="@color/black"
         android:textAlignment="textEnd"
         android:layout_weight="0.4"
+
         />
 
     <EditText
@@ -93,11 +103,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="5 alphanum characters "
-        android:textSize="20sp"
+        android:textSize="@dimen/edittext_size"
         android:textColor="@color/black"
         android:inputType="text"
         android:maxLines="1"
         android:layout_weight="0.6"
+        android:maxLength="5"
         />
 
     </LinearLayout>
@@ -118,8 +129,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
             android:text="Suite Number:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
@@ -129,12 +141,14 @@
             android:id="@+id/et_SuiteNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
             android:hint="min 2, max 5 characters"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
             android:textColor="@color/black"
             android:inputType="text"
             android:maxLines="1"
             android:layout_weight="0.6"
+            android:maxLength="5"
             />
 
     </LinearLayout>
@@ -155,7 +169,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="No. of hours:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
@@ -166,6 +181,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
+
             />
 
     </LinearLayout>
@@ -187,21 +203,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Location:"
-            android:textSize="20sp"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:layout_weight="0.4"
             />
 
-        <EditText
-            android:id="@+id/et_ParkingLocation"
+        <TextView
+            android:id="@+id/tvParkingLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="enter location"
-            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="@dimen/edittext_size"
             android:textColor="@color/black"
             android:layout_weight="0.5"
             android:maxLines="1"
+            />
+
+        <ImageButton
+            android:id="@+id/imgbtnLocation"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.1"
+            android:src="@drawable/location_icon"
+            android:background="#DBDFDF"
             />
 
     </LinearLayout>
@@ -219,32 +246,25 @@
         android:weightSum="1"
         >
 
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Date &amp; time:"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textAlignment="textEnd"-->
-<!--            android:layout_weight="0.3"-->
-<!--            />-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Parking Date:"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/black"
+            android:textAlignment="textEnd"
+            android:layout_weight="0.4"
+            android:layout_marginRight="5dp"
+            />
 
         <Button
             android:id="@+id/btnSelectDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.6"
             android:text="Select date"
-            android:backgroundTint="#DBDFDF"
-            />
-
-        <Button
-            android:id="@+id/btnSelectTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:layout_marginLeft="20sp"
-            android:text="Select Time"
+            android:fontFamily="sans-serif-medium"
             android:backgroundTint="#DBDFDF"
             />
 

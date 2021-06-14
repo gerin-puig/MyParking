@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(isRemembered){
             binding.editEmail.setText(psp.getInfo().first);
             binding.editPassword.setText(psp.getInfo().second);
+            binding.switchRememberMe.setChecked(true);
             login();
         }
     }

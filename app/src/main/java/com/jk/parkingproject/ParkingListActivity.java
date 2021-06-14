@@ -56,7 +56,6 @@ public class ParkingListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ParkingListActivity.this, AddNewParking.class);
-                //intent.putExtra("email", currentUserEmail);
                 startActivity(intent);
             }
         });
