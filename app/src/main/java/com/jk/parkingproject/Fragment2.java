@@ -1,9 +1,11 @@
 package com.jk.parkingproject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,16 +53,17 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
                 if(user == null)
                     return;
                 myUser = user;
-                binding.txtUserEmail.setText("  "+user.getEmail());
-                binding.txtUserPassword.setText("  "+user.getPassword());
-                binding.txtUserFirstname.setText("  "+user.getFirst_name());
-                binding.txtUserLastname.setText("  "+user.getLast_name());
-                binding.txtUserPhoneNumber.setText("  "+user.getPhone_number());
-                binding.txtUserPlateNumber.setText("  "+user.getPlate_number());
+                binding.txtUserEmail.setText("Email: "+user.getEmail());
+                binding.txtUserPassword.setText("Password: "+user.getPassword());
+                binding.txtUserFullname.setText("Name: "+user.getFirst_name() + " " + user.getLast_name());
+                binding.txtUserPhoneNumber.setText("Phone Number: "+user.getPhone_number());
+                binding.txtUserPlateNumber.setText("Plate Number: "+user.getPlate_number());
             }
         });
 
         binding.btnEditProfile.setOnClickListener(this);
+        binding.btnLogout.setOnClickListener(this);
+        binding.btnDeactivate.setOnClickListener(this);
     }
 
     @Override
@@ -80,11 +83,48 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
                     break;
 
                 case R.id.btnLogout:
-
+                    logout();
+                    break;
+                case R.id.btnDeactivate:
+                    myUser.setActive(false);
+                    userViewModel.updateUser(myUser, getContext());
+                    logout();
                     break;
             }
         }
     }
+
+    private void logout(){
+        psp.userLogout();
+        Intent i = new Intent(getContext(), MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        getActivity().finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(getView() == null){
+            return;
+        }
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    // handle back button's click listener
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
 
     /*
     @Override

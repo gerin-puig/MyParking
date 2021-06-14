@@ -48,6 +48,9 @@ public class EditProfileActivity extends AppCompatActivity {
         String pNum = binding.edPhoneNumber.getText().toString();
         String plateNum = binding.edPlateNumber.getText().toString();
 
+        if(!isInputValid(email,password,fname,lname, pNum, plateNum))
+            return;
+
         user.setActive(true);
         user.setEmail(email);
         user.setPassword(password);
@@ -58,6 +61,36 @@ public class EditProfileActivity extends AppCompatActivity {
 
         userViewModel.updateUser(user, this);
 
+    }
+
+    private boolean isInputValid(String email, String password, String fname, String lname, String pNum, String plateNum){
+        Boolean isValid = true;
+        if (email.isEmpty()){
+            binding.edEmail.setError("Email Required.");
+            isValid = false;
+        }
+        if(password.isEmpty()){
+            binding.editPassword.setError("Password Required.");
+            isValid = false;
+        }
+        if (fname.isEmpty()){
+            binding.edFirstname.setError("First name Required.");
+            isValid = false;
+        }
+        if(lname.isEmpty()){
+            binding.edLastname.setError("Last name Required.");
+            isValid = false;
+        }
+        if (pNum.isEmpty()){
+            binding.edPhoneNumber.setError("Phone number Required.");
+            isValid = false;
+        }
+        if(plateNum.isEmpty()){
+            binding.edPlateNumber.setError("Plate number Required.");
+            isValid = false;
+        }
+
+        return  isValid;
     }
 
 
