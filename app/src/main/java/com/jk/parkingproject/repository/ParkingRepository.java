@@ -377,6 +377,7 @@ public class ParkingRepository {
     private void changePassword(Context context, String password){
 
         FirebaseUser user = myAuth.getCurrentUser();
+
         user.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
