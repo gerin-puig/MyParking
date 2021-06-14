@@ -96,6 +96,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
 
     private void logout(){
         psp.userLogout();
+        userViewModel.signOut();
         Intent i = new Intent(getContext(), MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
@@ -109,7 +110,6 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         if(getView() == null){
             return;
         }
-
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {

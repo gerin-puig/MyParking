@@ -38,6 +38,11 @@ public class UserViewModel extends AndroidViewModel {
         isAuthenticated = parkingRepository.isAuthenticated;
     }
 
+    public void signOut(){
+        parkingRepository.signOut();
+    }
+
+
     public void getUser(String id){
         parkingRepository.getUser(id);
         myUser = parkingRepository.thisUser;
