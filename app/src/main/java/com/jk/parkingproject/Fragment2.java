@@ -2,7 +2,9 @@ package com.jk.parkingproject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jk.parkingproject.R;
 import com.jk.parkingproject.databinding.Fragment2LayoutBinding;
@@ -47,6 +50,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         String currentUser = psp.getCurrentUser();
         userViewModel = UserViewModel.getInstance(getActivity().getApplication());
         userViewModel.getUser(currentUser);
+
         userViewModel.myUser.observe(getActivity(), new Observer<ParkingUser>() {
             @Override
             public void onChanged(ParkingUser user) {
@@ -86,12 +90,41 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
                     logout();
                     break;
                 case R.id.btnDeactivate:
-                    myUser.setActive(false);
-                    userViewModel.updateUser(myUser, getContext());
-                    logout();
+                    checkUserSelection();
                     break;
             }
         }
+    }
+
+    private void checkUserSelection(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        // Set a title for alert dialog
+        builder.setTitle("Deactivate Account?");
+
+        // Ask the final question
+        builder.setMessage("Are you sure?");
+
+        // Set the alert dialog yes button click listener
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        // Set the alert dialog no button click listener
+        builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                myUser.setActive(false);
+                userViewModel.updateUser(myUser, getContext());
+                logout();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void logout(){
@@ -106,7 +139,12 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        String currentUser = psp.getCurrentUser();
+        userViewModel.getUser(currentUser);
+        disableBackButton();
+    }
 
+    private void disableBackButton(){
         if(getView() == null){
             return;
         }

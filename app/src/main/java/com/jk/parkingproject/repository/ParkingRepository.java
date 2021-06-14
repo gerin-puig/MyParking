@@ -27,7 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 public class ParkingRepository {
 
@@ -42,12 +44,15 @@ public class ParkingRepository {
     public MutableLiveData<List<Parking>> parkingList = new MutableLiveData<List<Parking>>();
     public MutableLiveData<ParkingUser> thisUser = new MutableLiveData<ParkingUser>();
 
+    private MutableLiveData<Boolean> isAuthSignUpSuccessful = new MutableLiveData<>();
+
     public MutableLiveData<String> currentUserCarPlateNumber = new MutableLiveData<>();
 
     public ParkingRepository(){
         db = FirebaseFirestore.getInstance();
         myAuth = FirebaseAuth.getInstance();
 
+        isAuthenticated.postValue(false);
         isAuthenticated.postValue(false);
     }
 
@@ -60,7 +65,7 @@ public class ParkingRepository {
             data.put("buildingCode", parking.getBuildingCode());
             data.put("hostSuiteNumber", parking.getHostSuiteNumber());
             data.put("dateOfParking", parking.getDateOfParking());
-            data.put("timeOfParking", parking.getTimeOfParking());
+            //data.put("timeOfParking", parking.getTimeOfParking());
             data.put("noOfHours", parking.getNoOfHours());
             data.put("latitude", parking.getLatitude());
             data.put("longitude", parking.getLongitude());
@@ -172,7 +177,7 @@ public class ParkingRepository {
             updateInfo.put("buildingCode", updatedParking.getBuildingCode());
             updateInfo.put("hostSuiteNumber", updatedParking.getHostSuiteNumber());
             updateInfo.put("dateOfParking", updatedParking.getDateOfParking());
-            updateInfo.put("timeOfParking", updatedParking.getTimeOfParking());
+            //updateInfo.put("timeOfParking", updatedParking.getTimeOfParking());
             updateInfo.put("noOfHours", updatedParking.getNoOfHours());
             updateInfo.put("latitude", updatedParking.getLatitude());
             updateInfo.put("longitude", updatedParking.getLongitude());
@@ -229,7 +234,7 @@ public class ParkingRepository {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "onComplete: User Found");
+                    Log.d(TAG1, "onComplete: User Found");
                     //FirebaseUser user = fba.getCurrentUser();
 
                     isAuthenticated.postValue(true);
@@ -241,16 +246,11 @@ public class ParkingRepository {
                         Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "onComplete: "+e.getLocalizedMessage());
+                        Log.e(TAG1, "onComplete: "+e.getLocalizedMessage());
                     }
                 }
             }
         });
-    }
-
-
-    private void isEmailValid(String email){
-        
     }
 
     public void signOut(){
@@ -264,10 +264,16 @@ public class ParkingRepository {
                 if(task.isSuccessful()){
                     FirebaseUser user = myAuth.getCurrentUser();
                     Toast.makeText(context, "User Created.", Toast.LENGTH_SHORT).show();
+                    isAuthSignUpSuccessful.postValue(true);
                 }
                 else {
-                    Toast.makeText(context, "Sign-up Failed.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Sign-up Failed.", Toast.LENGTH_SHORT).show();
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -284,17 +290,26 @@ public class ParkingRepository {
 
             signUpUser(user.getEmail(),user.getPassword(), context);
 
-            db.collection(COLLECTION_NAME).add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            isAuthSignUpSuccessful.observe((LifecycleOwner) context, new Observer<Boolean>() {
                 @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Log.d(TAG1, "onSuccess: New User Added " + documentReference.getId());
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG1, "onFailure: Add new user has failed!" + e.getLocalizedMessage());
+                public void onChanged(Boolean aBoolean) {
+                    if(aBoolean){
+                        db.collection(COLLECTION_NAME).add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG1, "onSuccess: New User Added " + documentReference.getId());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG1, "onFailure: Add new user has failed!" + e.getLocalizedMessage());
+                            }
+                        });
+                    }
                 }
             });
+
+
 
         }catch (Exception e){
             Log.d(TAG1, "addUser: " + e.getLocalizedMessage());
@@ -315,17 +330,17 @@ public class ParkingRepository {
                             //Log.d(TAG, "onComplete: user found:" + parkingUser.toString());
                         }
                         else {
-                            Log.e(TAG, "onComplete: No user with id found");
+                            Log.e(TAG1, "onComplete: No user with id found");
                         }
                     }
                 }
             });
         }catch (Exception e){
-            Log.e(TAG, "search for user: " + e.getLocalizedMessage() );
+            Log.e(TAG1, "search for user: " + e.getLocalizedMessage() );
         }
     }
 
-    public void updateUser(ParkingUser user){
+    public void updateUser(ParkingUser user, Context context){
         try{
             Map<String, Object> updateInfo = new HashMap<>();
             updateInfo.put("first_name", user.getFirst_name());
@@ -334,19 +349,24 @@ public class ParkingRepository {
             updateInfo.put("password", user.getPassword());
             updateInfo.put("phone_number", user.getPhone_number());
             updateInfo.put("plate_number", user.getPlate_number());
+            updateInfo.put("isActive", user.isActive());
 
             db.collection(COLLECTION_NAME).document(user.getId()).update(updateInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "onSuccess: document was updated!");
+                    Log.d(TAG1, "onSuccess: document was updated!");
+                    Toast.makeText(context, "User Updated.", Toast.LENGTH_SHORT).show();
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: document update has failed!");
+                    Log.d(TAG1, "onFailure: document update has failed!");
                 }
             });
-        }catch (Exception e){
+
+        }
+        catch (Exception e){
             Log.e(TAG, "updateFriend: unable to update doc " + e.getLocalizedMessage() );
         }
     }
@@ -354,7 +374,6 @@ public class ParkingRepository {
     public void disableUser(boolean disable){
 
         FirebaseUser user = myAuth.getCurrentUser();
-        //.
     }
 
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,9 @@ public class Fragment1 extends Fragment {
         loadParkingDataOnScreen();
         super.onResume();
 
+        //disable the back button so user cant return to login w/o logout button
+        disableBackButton();
+
     }
 
     private void loadParkingDataOnScreen() {
@@ -88,6 +92,25 @@ public class Fragment1 extends Fragment {
         binding.rcViewParkingList.setAdapter(parkingListAdapter);
         binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
+    }
+
+    private void disableBackButton(){
+        if(getView() == null){
+            return;
+        }
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    // handle back button's click listener
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
 //    void updateParkingInfoLabel(){

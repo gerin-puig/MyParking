@@ -49,7 +49,7 @@ public class ParkingDetailsActivity extends AppCompatActivity implements View.On
         this.binding.tvBuildingCodeParkingDetails.setText(currentParking.getBuildingCode());
         this.binding.tvHouseSuiteNumberParkingDetails.setText(currentParking.getHostSuiteNumber());
         this.binding.tvNoOfHoursParkingDetails.setText(currentParking.getNoOfHours());
-        this.binding.tvDateAndTimeOfParkingParkingDetails.setText(currentParking.getDateOfParking());
+        this.binding.tvDateAndTimeOfParkingParkingDetails.setText(currentParking.getDateOfParking().toString());
         Location currentLocation = new Location("");
         currentLocation.setLatitude(currentParking.getLatitude());
         currentLocation.setLongitude(currentParking.getLongitude());
@@ -95,11 +95,12 @@ public class ParkingDetailsActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btnEditParking_ParkingDetails:    editParking();
-                                                        break;
-            case R.id.btnDeleteParking_ParkingDetails:  deleteParking();
-                                                        break;
-
+            case R.id.btnEditParking_ParkingDetails:
+                editParking();
+                break;
+            case R.id.btnDeleteParking_ParkingDetails:
+                deleteParking();
+                break;
         }
     }
 }
