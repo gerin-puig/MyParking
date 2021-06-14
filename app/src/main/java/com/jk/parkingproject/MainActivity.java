@@ -45,6 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         psp = new ParkingSharedPrefs(this);
         userViewModel = UserViewModel.getInstance(getApplication());
+
+        boolean isRemembered = psp.getIsRemembered();
+        if(isRemembered){
+            binding.editEmail.setText(psp.getInfo().first);
+            binding.editPassword.setText(psp.getInfo().second);
+            login();
+        }
     }
 
     @Override
@@ -78,8 +85,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(aBoolean == null)
                     return;
 
+                boolean isRemembered = binding.switchRememberMe.isChecked();
+
+
                 if (aBoolean) {
                     psp.setCurrentUser(email);
+                    psp.saveUserInfo(email,password,isRemembered);
                     Intent intent = new Intent(MainActivity.this, ParkingListActivity.class);
                     startActivity(intent);
                 }

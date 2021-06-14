@@ -3,7 +3,7 @@ package com.jk.parkingproject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
+import android.util.Pair;
 
 public class ParkingSharedPrefs {
     private SharedPreferences shared;
@@ -29,6 +29,14 @@ public class ParkingSharedPrefs {
         return currentUser;
     }
 
+    public boolean getIsRemembered(){
+        return shared.getBoolean(REMEMBER, false);
+    }
+
+    public Pair<String, String> getInfo(){
+        return new Pair<>(shared.getString(EMAIL, ""), shared.getString(PASSWORD, ""));
+    }
+
     public void saveUserInfo(String email, String password, Boolean remember){
         editor.putString(EMAIL, email);
         editor.putString(PASSWORD, password);
@@ -37,6 +45,7 @@ public class ParkingSharedPrefs {
     }
 
     public void userLogout(){
+        editor.remove(CURRENT_USER);
         editor.remove(EMAIL);
         editor.remove(PASSWORD);
         editor.remove(REMEMBER);
