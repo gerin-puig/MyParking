@@ -62,6 +62,8 @@ public class ParkingRepository {
             data.put("dateOfParking", parking.getDateOfParking());
             data.put("timeOfParking", parking.getTimeOfParking());
             data.put("noOfHours", parking.getNoOfHours());
+            data.put("latitude", parking.getLatitude());
+            data.put("longitude", parking.getLongitude());
 
             db.collection(PARKING_COLLECTION_NAME)
                     .add(data)
@@ -162,9 +164,65 @@ public class ParkingRepository {
 
     }
 
-    public void deleteParking(){
+    public void updateParking(Parking updatedParking){
+        try{
+            Map<String, Object> updateInfo = new HashMap<>();
+            updateInfo.put("email", updatedParking.getEmail());
+            updateInfo.put("carPlateNumber", updatedParking.getCarPlateNumber());
+            updateInfo.put("buildingCode", updatedParking.getBuildingCode());
+            updateInfo.put("hostSuiteNumber", updatedParking.getHostSuiteNumber());
+            updateInfo.put("dateOfParking", updatedParking.getDateOfParking());
+            updateInfo.put("timeOfParking", updatedParking.getTimeOfParking());
+            updateInfo.put("noOfHours", updatedParking.getNoOfHours());
+            updateInfo.put("latitude", updatedParking.getLatitude());
+            updateInfo.put("longitude", updatedParking.getLongitude());
+
+            db.collection(PARKING_COLLECTION_NAME)
+                    .document(updatedParking.getId())
+                    .update(updateInfo)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "onSuccess: Document updated successfully");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: Unable to update document");
+                        }
+                    });
+
+            //TASK - COMPLETE THE REST OF THE FUNCTION CALLS AND OPERATIONS IN THE FLOW TO COMPLETTE THE UPDATE FUNCTIONALITY
+
+        }catch (Exception ex){
+            Log.e(TAG, "deleteFriend: Unable to update document " + ex.getLocalizedMessage() );
+        }
 
     }
+
+    public void deleteParking(String parkingId){
+        try{
+            db.collection(PARKING_COLLECTION_NAME)
+                    .document(parkingId)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "onSuccess :  deleteParking():  Parking deleted successfuly ");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "onFailure : deleteParking() : Unable to delete parking :" + e.getLocalizedMessage() );
+                        }
+                    });
+        }catch (Exception ex){
+            Log.e(TAG, "deleteParking() : Unable to delete document " + ex.getLocalizedMessage() );
+        }
+    }
+
 
     public void signIn(String email, String password, Context context) {
         myAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
@@ -183,7 +241,7 @@ public class ParkingRepository {
                         Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
+                        Log.e(TAG, "onComplete: "+e.getLocalizedMessage());
                     }
                 }
             }

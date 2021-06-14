@@ -52,4 +52,15 @@ public class ParkingViewModel extends AndroidViewModel {
         this.currentUserCarPlateNUmber = this.parkingRepository.currentUserCarPlateNumber;
     }
 
+    public void updateParking(Parking parking){
+        this.parkingRepository.updateParking(parking);
+
+    }
+
+    public void deleteParking(String parkingId){
+
+        this.parkingRepository.deleteParking(parkingId);
+
+    }
+
 }

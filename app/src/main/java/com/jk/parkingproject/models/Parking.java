@@ -12,16 +12,15 @@ public class Parking implements Serializable {
     private String buildingCode;
     private String hostSuiteNumber;
     private Date dateOfParking;
-    private String timeOfParking;
     private String noOfHours;
+    private double latitude;
+    private double longitude;
 
-
-    public Parking(String carPlateNumber, String buildingCode, String hostSuiteNumber, Date dateOfParking, String timeOfParking, String noOfHours) {
+    public Parking(String carPlateNumber, String buildingCode, String hostSuiteNumber, Date dateOfParking, String noOfHours) {
         this.carPlateNumber = carPlateNumber;
         this.buildingCode = buildingCode;
         this.hostSuiteNumber = hostSuiteNumber;
         this.dateOfParking = dateOfParking;
-        this.timeOfParking = timeOfParking;
         this.noOfHours = noOfHours;
     }
 
@@ -29,18 +28,8 @@ public class Parking implements Serializable {
 
     }
 
-
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTimeOfParking() {
-        return timeOfParking;
-    }
-
-
-    public void setTimeOfParking(String timeOfParking) {
-        this.timeOfParking = timeOfParking;
     }
 
     public String getEmail() {
@@ -93,6 +82,22 @@ public class Parking implements Serializable {
 
     public String getNoOfHours() {
         return noOfHours;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     @Override

@@ -246,23 +246,24 @@
         android:weightSum="1"
         >
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Parking Date:"
+            android:textSize="@dimen/edittext_size"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/black"
+            android:textAlignment="textEnd"
+            android:layout_weight="0.4"
+            android:layout_marginRight="5dp"
+            />
+
         <Button
             android:id="@+id/btnSelectDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.6"
             android:text="Select date"
-            android:fontFamily="sans-serif-medium"
-            android:backgroundTint="#DBDFDF"
-            />
-
-        <Button
-            android:id="@+id/btnSelectTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:layout_marginLeft="20sp"
-            android:text="Select Time"
             android:fontFamily="sans-serif-medium"
             android:backgroundTint="#DBDFDF"
             />

@@ -8,18 +8,15 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.jk.parkingproject.databinding.ActivityAddNewParkingBinding;
 import com.jk.parkingproject.helpers.LocationHelper;
@@ -44,6 +41,7 @@ public class AddNewParking extends AppCompatActivity {
     List<String> carsList = new ArrayList<>();
     private String TAG = "QWERTY";
     private Location lastLocation;
+    ArrayAdapter<String> noOfHoursAdapter;
 
 //    String[] carsList =  {"Tesla - CD12 AQ8238", "Benz - RD007 BNZ143", "Hummer EV - RUDE BST"};
     String[] noOfHours = {"less than an hour", "less than 4 hours", "less than 12 hours", "24 hours"};
@@ -60,20 +58,28 @@ public class AddNewParking extends AppCompatActivity {
         this.binding = ActivityAddNewParkingBinding.inflate(getLayoutInflater());
         View view = this.binding.getRoot();
         setContentView(view);
-
-        sharedPreferences = new ParkingSharedPrefs(getApplicationContext());
-        newParking = new Parking();
-
         this.parkingViewModel = ParkingViewModel.getInstance(this.getApplication());
-        this.parkingViewModel.getCarByUsername(sharedPreferences.getCurrentUser());
-
         this.locationHelper = LocationHelper.getInstance();
 
-        getCurrentUserCarPlateNumber();
-
-        ArrayAdapter<String> noOfHoursAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, noOfHours);
+        noOfHoursAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, noOfHours);
         noOfHoursAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.binding.spinnerNoOfHours.setAdapter(noOfHoursAdapter);
+
+        if(getIntent().getSerializableExtra("currentParking") != null){
+
+            newParking = (Parking) getIntent().getSerializableExtra("currentParking");
+            loadUpdateParkingDetailsOnScreen();
+
+        }
+        else{
+
+//            loadAddParkingDetailsOnScreen();
+            sharedPreferences = new ParkingSharedPrefs(getApplicationContext());
+            this.parkingViewModel.getCarByUsername(sharedPreferences.getCurrentUser());
+            getCurrentUserCarPlateNumber();
+//            newParking = new Parking();
+        }
+
 
         this.binding.btnSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +96,7 @@ public class AddNewParking extends AppCompatActivity {
 
                         AddNewParking.this.binding.btnSelectDate.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.date_time_selected)));
                         AddNewParking.this.binding.btnSelectDate.setTextColor(getResources().getColor(R.color.black));
-                        AddNewParking.this.binding.btnSelectDate.setText(day+" - "+month+" - "+year);
+                        AddNewParking.this.binding.btnSelectDate.setText(formatDate(c.getTime()));
 
                         newParking.setDateOfParking(c.getTime());
                     }
@@ -101,40 +107,23 @@ public class AddNewParking extends AppCompatActivity {
             }
         });
 
-        this.binding.btnSelectTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Calendar c = Calendar.getInstance();
-
-                int mHour = c.get(Calendar.HOUR_OF_DAY);
-                int mMinute = c.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(AddNewParking.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-
-                        AddNewParking.this.binding.btnSelectTime.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.date_time_selected)));
-                        AddNewParking.this.binding.btnSelectTime.setTextColor(getResources().getColor(R.color.black));
-
-                        AddNewParking.this.binding.btnSelectTime.setText(hour+" : "+minute);
-                        newParking.setTimeOfParking(formatTime(c.getTime()));
-                    }
-                }, mHour, mMinute, true);
-
-                timePickerDialog.show();
-
-            }
-        });
-
         this.binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if(validateData()){
-                    // add parking to Firebase
+                    // validation check passed
 
-                    saveDataToFirebase();
-                    Toast.makeText(AddNewParking.this, "Parking added", Toast.LENGTH_SHORT).show();
+                    if(newParking.getEmail() != null){
+                        //
+                        updateParkingInFirebase();
+                        Toast.makeText(AddNewParking.this, "Parking updated", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+
+                        saveParkingToFirebase();
+                        Toast.makeText(AddNewParking.this, "Parking added", Toast.LENGTH_SHORT).show();
+                    }
                     finish();
                 }
             }
@@ -170,6 +159,20 @@ public class AddNewParking extends AppCompatActivity {
 
     }
 
+    private void loadUpdateParkingDetailsOnScreen() {
+
+        this.binding.etCarPlateNumber.setText(newParking.getCarPlateNumber());
+        this.binding.etBuildingCode.setText(newParking.getBuildingCode());
+        this.binding.etSuiteNumber.setText(newParking.getHostSuiteNumber());
+        int position = noOfHoursAdapter.getPosition(newParking.getNoOfHours());
+        this.binding.spinnerNoOfHours.setSelection(position);
+        this.lastLocation = new Location("");
+        lastLocation.setLatitude(newParking.getLatitude());
+        lastLocation.setLongitude(newParking.getLongitude());
+        this.binding.tvParkingLocation.setText(locationHelper.getAddress(this, lastLocation));
+        this.binding.btnSave.setText("Update");
+    }
+
     private void getCurrentUserCarPlateNumber() {
 
         this.parkingViewModel.currentUserCarPlateNUmber.observe(this, new Observer<String>() {
@@ -190,7 +193,6 @@ public class AddNewParking extends AppCompatActivity {
 
             this.binding.etCarPlateNumber.setError("Car plate number should be 2 to 8 characters long");
             isValid = false;
-
         }
 
         else if(this.binding.etBuildingCode.getText().toString().trim().isEmpty()){
@@ -220,22 +222,36 @@ public class AddNewParking extends AppCompatActivity {
             isValid = false;
         }
 
-        else if(this.binding.btnSelectTime.getText().toString().equalsIgnoreCase("select time")){
-            Snackbar.make(this, this.binding.getRoot(), "Please provide the time of parking", Snackbar.LENGTH_SHORT).show();
+        else if(this.lastLocation == null){
+            this.binding.tvParkingLocation.setError("");
+            Snackbar.make(this, this.binding.getRoot(), "Please select the location of parking", Snackbar.LENGTH_SHORT).show();
             isValid = false;
         }
 
         return isValid;
     }
 
-    private void saveDataToFirebase(){
+    private void updateParkingInFirebase(){
+
+        this.newParking.setCarPlateNumber(this.binding.etCarPlateNumber.getText().toString());
+        this.newParking.setBuildingCode(this.binding.etBuildingCode.getText().toString());
+        this.newParking.setHostSuiteNumber(this.binding.etSuiteNumber.getText().toString());
+        this.newParking.setNoOfHours(this.binding.spinnerNoOfHours.getSelectedItem().toString());
+        this.newParking.setLatitude(this.lastLocation.getLatitude());
+        this.newParking.setLongitude(this.lastLocation.getLongitude());
+        this.parkingViewModel.updateParking(newParking);
+
+    }
+
+    private void saveParkingToFirebase(){
 
         this.newParking.setEmail(this.sharedPreferences.getCurrentUser());
         this.newParking.setCarPlateNumber(this.binding.etCarPlateNumber.getText().toString());
         this.newParking.setBuildingCode(this.binding.etBuildingCode.getText().toString());
         this.newParking.setHostSuiteNumber(this.binding.etSuiteNumber.getText().toString());
         this.newParking.setNoOfHours(this.binding.spinnerNoOfHours.getSelectedItem().toString());
-
+        this.newParking.setLatitude(this.lastLocation.getLatitude());
+        this.newParking.setLongitude(this.lastLocation.getLongitude());
         this.parkingViewModel.addParking(newParking);
 
     }
@@ -256,17 +272,9 @@ public class AddNewParking extends AppCompatActivity {
 
 
 
-    private Date formatDate(String date){
+    private String formatDate(Date date){
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Date d = null;
-        try {
-            d = dateFormat.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return d;
+        return DateFormat.getDateInstance().format(date);
 
     }
 

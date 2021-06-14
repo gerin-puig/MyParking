@@ -250,5 +250,58 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/llParkingLocationMap_ParkingDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llParkingLocationInfo_ParkingDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="1"
+        >
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llEditDeleteParking_ParkingDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16sp"
+        app:layout_constraintTop_toBottomOf="@id/llParkingLocationMap_ParkingDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="1"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/btnEditParking_ParkingDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:layout_marginRight="10dp"
+
+            />
+
+        <Button
+            android:id="@+id/btnDeleteParking_ParkingDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

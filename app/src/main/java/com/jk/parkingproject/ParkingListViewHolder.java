@@ -3,9 +3,11 @@ package com.jk.parkingproject;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.view.View;
 
 import com.jk.parkingproject.databinding.RowLayoutBinding;
+import com.jk.parkingproject.helpers.LocationHelper;
 import com.jk.parkingproject.models.Parking;
 import com.jk.parkingproject.viewmodels.ParkingViewModel;
 
@@ -23,6 +25,7 @@ public class ParkingListViewHolder extends RecyclerView.ViewHolder implements Vi
     List<Parking> parkingList;
     private String TAG = "MY_DEBUG_TAG";
     ParkingViewModel parkingViewModel;
+    LocationHelper locationHelper;
 
 
     public ParkingListViewHolder(RowLayoutBinding binding, Application app, List<Parking> parkings) {
@@ -31,6 +34,7 @@ public class ParkingListViewHolder extends RecyclerView.ViewHolder implements Vi
         this.application = app;
         this.parkingList = parkings;
         this.binding.getRoot().setOnClickListener(this);
+        this.locationHelper = LocationHelper.getInstance();
 
     }
 
@@ -39,7 +43,10 @@ public class ParkingListViewHolder extends RecyclerView.ViewHolder implements Vi
 
         this.binding.tvCarPlateNumber.setText(parkingList.get(position).getCarPlateNumber());
         this.binding.tvDateOfParking.setText(parkingList.get(position).getDateOfParking().toString());
-        this.binding.tvParkingLocation.setText("Parking Location");
+        Location currentLocation = new Location("");
+        currentLocation.setLatitude(parkingList.get(position).getLatitude());
+        currentLocation.setLongitude(parkingList.get(position).getLongitude());
+        this.binding.tvParkingLocation.setText(locationHelper.getAddress(application.getApplicationContext(), currentLocation));
         this.binding.tvParkingHours.setText(parkingList.get(position).getNoOfHours());
     }
 
