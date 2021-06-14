@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.editEmail.setOnClickListener(this);
         binding.editPassword.setOnClickListener(this);
 
+        binding.editEmail.setText("7@g.com");
+        binding.editPassword.setText("7777777");
+
         psp = new ParkingSharedPrefs(this);
         userViewModel = UserViewModel.getInstance(getApplication());
 
