@@ -37,6 +37,11 @@ public class ParkingSharedPrefs {
         return new Pair<>(shared.getString(EMAIL, ""), shared.getString(PASSWORD, ""));
     }
 
+    public void setPassword(String password){
+        editor.putString(PASSWORD, password);
+        editor.commit();
+    }
+
     public void saveUserInfo(String email, String password, Boolean remember){
         editor.putString(EMAIL, email);
         editor.putString(PASSWORD, password);
