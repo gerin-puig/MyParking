@@ -13,8 +13,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jk.parkingproject.ParkingSharedPrefs;
 import com.jk.parkingproject.models.Parking;
@@ -28,9 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 public class ParkingRepository {
 
@@ -43,6 +45,7 @@ public class ParkingRepository {
 
     public MutableLiveData<Boolean> isAuthenticated = new MutableLiveData<Boolean>();
     public MutableLiveData<List<Parking>> parkingList = new MutableLiveData<List<Parking>>();
+    public MutableLiveData<Parking> currentParking = new MutableLiveData<Parking>();
     public MutableLiveData<ParkingUser> thisUser = new MutableLiveData<ParkingUser>();
 
     private MutableLiveData<Boolean> isAuthSignUpSuccessful = new MutableLiveData<>();
@@ -53,7 +56,7 @@ public class ParkingRepository {
         db = FirebaseFirestore.getInstance();
         myAuth = FirebaseAuth.getInstance();
 
-        isAuthenticated.postValue(false);
+        isAuthSignUpSuccessful.postValue(false);
         isAuthenticated.postValue(false);
     }
 
@@ -66,7 +69,6 @@ public class ParkingRepository {
             data.put("buildingCode", parking.getBuildingCode());
             data.put("hostSuiteNumber", parking.getHostSuiteNumber());
             data.put("dateOfParking", parking.getDateOfParking());
-            //data.put("timeOfParking", parking.getTimeOfParking());
             data.put("noOfHours", parking.getNoOfHours());
             data.put("latitude", parking.getLatitude());
             data.put("longitude", parking.getLongitude());
@@ -91,6 +93,55 @@ public class ParkingRepository {
             Log.d(TAG, e.getLocalizedMessage());
         }
 
+    }
+
+    public void getCurrentParking(String parkingId){
+
+        try{
+            db.collection(PARKING_COLLECTION_NAME)
+                    .document(parkingId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+
+                            Parking p = (Parking) task.getResult().toObject(Parking.class);
+                            p.setId(task.getResult().getId());
+                            currentParking.postValue(p);
+                            Log.e(TAG, "onComplete: getCurrentParking: pList :"+currentParking.toString());
+
+                            }
+
+                            else{
+                                Log.e(TAG, "onComplete: getCurrentParking: Task Unsuccessful");
+                            }
+
+                        }
+                    });
+
+//                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                            if(error != null){
+//                                Log.d(TAG, "onEvent: Listening to collection failed  due to: "+error);
+//                            }
+//
+//                            if(value.getData().isEmpty()){
+//                                Log.d(TAG, "No change(s) in document of collection");
+//                            }
+//                            else{
+//                                currentParking.setValue((Parking) value.getData());
+//                                Log.d(TAG, "onEvent: Current data : " + value.getData());
+//                            }
+//                    }
+//        });
+        }
+
+        catch(Exception e){
+            Log.e(TAG, "getAllCars: Unable to get cars. Error : "+e.getLocalizedMessage());
+        }
     }
 
     public void getCarByUsername(String currentUser){
@@ -135,7 +186,8 @@ public class ParkingRepository {
                         public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 
                             if(task.isSuccessful()){
-                                if(task.getResult().getDocuments().size() != 0){
+
+                                if(task.getResult().getDocuments().size() >= 0){
 
                                     List<Parking> pList = new ArrayList<>();
 
@@ -178,7 +230,6 @@ public class ParkingRepository {
             updateInfo.put("buildingCode", updatedParking.getBuildingCode());
             updateInfo.put("hostSuiteNumber", updatedParking.getHostSuiteNumber());
             updateInfo.put("dateOfParking", updatedParking.getDateOfParking());
-            //updateInfo.put("timeOfParking", updatedParking.getTimeOfParking());
             updateInfo.put("noOfHours", updatedParking.getNoOfHours());
             updateInfo.put("latitude", updatedParking.getLatitude());
             updateInfo.put("longitude", updatedParking.getLongitude());
@@ -235,7 +286,7 @@ public class ParkingRepository {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d(TAG1, "onComplete: User Found");
+                    Log.d(TAG, "onComplete: User Found");
                     //FirebaseUser user = fba.getCurrentUser();
 
                     isAuthenticated.postValue(true);
@@ -247,7 +298,7 @@ public class ParkingRepository {
                         Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG1, "onComplete: "+e.getLocalizedMessage());
+                        Log.e(TAG, "onComplete: "+e.getLocalizedMessage());
                     }
                 }
             }
@@ -331,13 +382,13 @@ public class ParkingRepository {
                             //Log.d(TAG, "onComplete: user found:" + parkingUser.toString());
                         }
                         else {
-                            Log.e(TAG1, "onComplete: No user with id found");
+                            Log.e(TAG, "onComplete: No user with id found");
                         }
                     }
                 }
             });
         }catch (Exception e){
-            Log.e(TAG1, "search for user: " + e.getLocalizedMessage() );
+            Log.e(TAG, "search for user: " + e.getLocalizedMessage() );
         }
     }
 
@@ -364,12 +415,10 @@ public class ParkingRepository {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG1, "onFailure: document update has failed!");
+                    Log.d(TAG, "onFailure: document update has failed!");
                 }
             });
-
-        }
-        catch (Exception e){
+        }catch (Exception e){
             Log.e(TAG, "updateFriend: unable to update doc " + e.getLocalizedMessage() );
         }
     }

@@ -2,6 +2,7 @@ package com.jk.parkingproject;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,9 +18,13 @@ import com.jk.parkingproject.helpers.LocationHelper;
 import com.jk.parkingproject.models.Parking;
 import com.jk.parkingproject.viewmodels.ParkingViewModel;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class ParkingDetailsActivity extends AppCompatActivity implements View.OnClickListener{
 
     ActivityParkingDetailsBinding binding;
+    String TAG = "QWERTY";
     Parking currentParking;
     ParkingViewModel parkingViewModel;
     LocationHelper locationHelper;
@@ -34,15 +39,32 @@ public class ParkingDetailsActivity extends AppCompatActivity implements View.On
 
         getSupportActionBar().hide();
 
-        currentParking = (Parking) getIntent().getSerializableExtra("currentParking");
         parkingViewModel = ParkingViewModel.getInstance(getApplication());
         locationHelper = LocationHelper.getInstance();
+//        currentParking = (Parking) getIntent().getSerializableExtra("currentParking");
 
-        loadParkingInfoDetails();
+        parkingViewModel.getCurrentParking(getIntent().getStringExtra(" "));
+
+        parkingViewModel.currentParking.observe(this, new Observer<Parking>() {
+            @Override
+            public void onChanged(Parking parking) {
+
+                currentParking = parking;
+                loadParkingInfoDetails();
+            }
+        });
+
+//        loadParkingInfoDetails();
 
         this.binding.btnDeleteParkingParkingDetails.setOnClickListener(this);
         this.binding.btnEditParkingParkingDetails.setOnClickListener(this);
         binding.btnMap.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        parkingViewModel.getCurrentParking(getIntent().getStringExtra("parkingId"));
     }
 
     private void loadParkingInfoDetails() {
@@ -51,7 +73,7 @@ public class ParkingDetailsActivity extends AppCompatActivity implements View.On
         this.binding.tvBuildingCodeParkingDetails.setText(currentParking.getBuildingCode());
         this.binding.tvHouseSuiteNumberParkingDetails.setText(currentParking.getHostSuiteNumber());
         this.binding.tvNoOfHoursParkingDetails.setText(currentParking.getNoOfHours());
-        this.binding.tvDateAndTimeOfParkingParkingDetails.setText(currentParking.getDateOfParking().toString());
+        this.binding.tvDateAndTimeOfParkingParkingDetails.setText(formatDate(currentParking.getDateOfParking()));
         Location currentLocation = new Location("");
         currentLocation.setLatitude(currentParking.getLatitude());
         currentLocation.setLongitude(currentParking.getLongitude());
@@ -71,7 +93,7 @@ public class ParkingDetailsActivity extends AppCompatActivity implements View.On
                         parkingViewModel.deleteParking(currentParking.getId());
                         currentParking = null;
                         Toast.makeText(ParkingDetailsActivity.this, "Parking deleted successfully", Toast.LENGTH_SHORT).show();
-                        finish();
+                        finishAndRemoveTask();
                     }
                 });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -91,6 +113,12 @@ public class ParkingDetailsActivity extends AppCompatActivity implements View.On
         Intent intent = new Intent(ParkingDetailsActivity.this, AddNewParking.class);
         intent.putExtra("currentParking", currentParking);
         startActivity(intent);
+
+    }
+
+    private String formatDate(Date date){
+
+        return DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(date);
 
     }
 

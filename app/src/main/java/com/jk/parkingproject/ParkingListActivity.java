@@ -50,7 +50,6 @@ public class ParkingListActivity extends AppCompatActivity {
         ParkingSharedPrefs psp = new ParkingSharedPrefs(this);
         currentUserEmail = psp.getCurrentUser();
 
-        //currentUserEmail = getIntent().getStringExtra("email");
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +58,5 @@ public class ParkingListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 }
