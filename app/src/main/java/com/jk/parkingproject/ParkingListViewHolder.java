@@ -13,6 +13,8 @@ import com.jk.parkingproject.viewmodels.ParkingViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -42,7 +44,7 @@ public class ParkingListViewHolder extends RecyclerView.ViewHolder implements Vi
         // to associate the UI with your data
 
         this.binding.tvCarPlateNumber.setText(parkingList.get(position).getCarPlateNumber());
-        this.binding.tvDateOfParking.setText(parkingList.get(position).getDateOfParking().toString());
+        this.binding.tvDateOfParking.setText(formatDate(parkingList.get(position).getDateOfParking()));
         Location currentLocation = new Location("");
         currentLocation.setLatitude(parkingList.get(position).getLatitude());
         currentLocation.setLongitude(parkingList.get(position).getLongitude());
@@ -57,7 +59,13 @@ public class ParkingListViewHolder extends RecyclerView.ViewHolder implements Vi
         int position = getAdapterPosition();
         Intent intent = new Intent(application.getApplicationContext(), ParkingDetailsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("currentParking", parkingList.get(position));
+        intent.putExtra("parkingId", parkingList.get(position).getId());
         application.startActivity(intent);
+    }
+
+    private String formatDate(Date date){
+
+        return DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(date);
+
     }
 }

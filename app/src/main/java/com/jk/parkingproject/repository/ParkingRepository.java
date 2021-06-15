@@ -13,8 +13,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jk.parkingproject.models.Parking;
 import com.jk.parkingproject.models.ParkingUser;
@@ -27,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 public class ParkingRepository {
@@ -40,6 +45,7 @@ public class ParkingRepository {
 
     public MutableLiveData<Boolean> isAuthenticated = new MutableLiveData<Boolean>();
     public MutableLiveData<List<Parking>> parkingList = new MutableLiveData<List<Parking>>();
+    public MutableLiveData<Parking> currentParking = new MutableLiveData<Parking>();
     public MutableLiveData<ParkingUser> thisUser = new MutableLiveData<ParkingUser>();
 
     public MutableLiveData<String> currentUserCarPlateNumber = new MutableLiveData<>();
@@ -60,7 +66,6 @@ public class ParkingRepository {
             data.put("buildingCode", parking.getBuildingCode());
             data.put("hostSuiteNumber", parking.getHostSuiteNumber());
             data.put("dateOfParking", parking.getDateOfParking());
-            data.put("timeOfParking", parking.getTimeOfParking());
             data.put("noOfHours", parking.getNoOfHours());
             data.put("latitude", parking.getLatitude());
             data.put("longitude", parking.getLongitude());
@@ -85,6 +90,55 @@ public class ParkingRepository {
             Log.d(TAG, e.getLocalizedMessage());
         }
 
+    }
+
+    public void getCurrentParking(String parkingId){
+
+        try{
+            db.collection(PARKING_COLLECTION_NAME)
+                    .document(parkingId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+
+                            Parking p = (Parking) task.getResult().toObject(Parking.class);
+                            p.setId(task.getResult().getId());
+                            currentParking.postValue(p);
+                            Log.e(TAG, "onComplete: getCurrentParking: pList :"+currentParking.toString());
+
+                            }
+
+                            else{
+                                Log.e(TAG, "onComplete: getCurrentParking: Task Unsuccessful");
+                            }
+
+                        }
+                    });
+
+//                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                            if(error != null){
+//                                Log.d(TAG, "onEvent: Listening to collection failed  due to: "+error);
+//                            }
+//
+//                            if(value.getData().isEmpty()){
+//                                Log.d(TAG, "No change(s) in document of collection");
+//                            }
+//                            else{
+//                                currentParking.setValue((Parking) value.getData());
+//                                Log.d(TAG, "onEvent: Current data : " + value.getData());
+//                            }
+//                    }
+//        });
+        }
+
+        catch(Exception e){
+            Log.e(TAG, "getAllCars: Unable to get cars. Error : "+e.getLocalizedMessage());
+        }
     }
 
     public void getCarByUsername(String currentUser){
@@ -129,7 +183,8 @@ public class ParkingRepository {
                         public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 
                             if(task.isSuccessful()){
-                                if(task.getResult().getDocuments().size() != 0){
+
+                                if(task.getResult().getDocuments().size() >= 0){
 
                                     List<Parking> pList = new ArrayList<>();
 
@@ -172,7 +227,6 @@ public class ParkingRepository {
             updateInfo.put("buildingCode", updatedParking.getBuildingCode());
             updateInfo.put("hostSuiteNumber", updatedParking.getHostSuiteNumber());
             updateInfo.put("dateOfParking", updatedParking.getDateOfParking());
-            updateInfo.put("timeOfParking", updatedParking.getTimeOfParking());
             updateInfo.put("noOfHours", updatedParking.getNoOfHours());
             updateInfo.put("latitude", updatedParking.getLatitude());
             updateInfo.put("longitude", updatedParking.getLongitude());
@@ -210,6 +264,7 @@ public class ParkingRepository {
                         @Override
                         public void onSuccess(Void unused) {
                             Log.d(TAG, "onSuccess :  deleteParking():  Parking deleted successfuly ");
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

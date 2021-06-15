@@ -1,18 +1,25 @@
 package com.jk.parkingproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -38,7 +45,6 @@ public class AddNewParking extends AppCompatActivity {
     ActivityAddNewParkingBinding binding;
     ParkingSharedPrefs sharedPreferences;
     private LocationHelper locationHelper;
-    List<String> carsList = new ArrayList<>();
     private String TAG = "QWERTY";
     private Location lastLocation;
     ArrayAdapter<String> noOfHoursAdapter;
@@ -80,30 +86,12 @@ public class AddNewParking extends AppCompatActivity {
 //            newParking = new Parking();
         }
 
-
-        this.binding.btnSelectDate.setOnClickListener(new View.OnClickListener() {
+        this.binding.imgbtnSearchLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
+//                showInputDialog();
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddNewParking.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-
-                        AddNewParking.this.binding.btnSelectDate.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.date_time_selected)));
-                        AddNewParking.this.binding.btnSelectDate.setTextColor(getResources().getColor(R.color.black));
-                        AddNewParking.this.binding.btnSelectDate.setText(formatDate(c.getTime()));
-
-                        newParking.setDateOfParking(c.getTime());
-                    }
-                }, mYear, mMonth, mDay);
-
-                datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
-                datePickerDialog.show();
             }
         });
 
@@ -158,6 +146,8 @@ public class AddNewParking extends AppCompatActivity {
         });
 
     }
+
+
 
     private void loadUpdateParkingDetailsOnScreen() {
 
@@ -217,11 +207,6 @@ public class AddNewParking extends AppCompatActivity {
             isValid = false;
         }
 
-        else if(this.binding.btnSelectDate.getText().toString().equalsIgnoreCase("select date")){
-            Snackbar.make(this, this.binding.getRoot(), "Please provide the date of parking", Snackbar.LENGTH_SHORT).show();
-            isValid = false;
-        }
-
         else if(this.lastLocation == null){
             this.binding.tvParkingLocation.setError("");
             Snackbar.make(this, this.binding.getRoot(), "Please select the location of parking", Snackbar.LENGTH_SHORT).show();
@@ -252,8 +237,13 @@ public class AddNewParking extends AppCompatActivity {
         this.newParking.setNoOfHours(this.binding.spinnerNoOfHours.getSelectedItem().toString());
         this.newParking.setLatitude(this.lastLocation.getLatitude());
         this.newParking.setLongitude(this.lastLocation.getLongitude());
+        this.newParking.setDateOfParking(Calendar.getInstance().getTime());
         this.parkingViewModel.addParking(newParking);
 
+    }
+
+    protected void showInputDialog() {
+        
     }
 
     @Override
@@ -269,18 +259,4 @@ public class AddNewParking extends AppCompatActivity {
             Log.e(TAG, "onRequestPermissionsResult: PERMISSION IS GRANTED " );
         }
     }
-
-
-
-    private String formatDate(Date date){
-
-        return DateFormat.getDateInstance().format(date);
-
-    }
-
-    private String formatTime(Date date){
-
-        return DateFormat.getTimeInstance().format(date);
-    }
-
 }

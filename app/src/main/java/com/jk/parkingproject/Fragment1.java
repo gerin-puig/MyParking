@@ -48,6 +48,11 @@ public class Fragment1 extends Fragment {
         parkingViewModel = ParkingViewModel.getInstance(getActivity().getApplication());
 
         parkingList = new ArrayList<>();
+        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
+        binding.rcViewParkingList.setAdapter(parkingListAdapter);
+        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        parkingViewModel.getAllParkings(sharedPrefs.getCurrentUser());
 
 //        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
 //        binding.rcViewParkingList.setAdapter(parkingListAdapter);
@@ -60,45 +65,47 @@ public class Fragment1 extends Fragment {
     @Override
     public void onResume() {
 
+        super.onResume();
+        binding.rcViewParkingList.invalidate();
+        Log.e(TAG, "onResume: resuming fragment");
         parkingList.clear();
         binding.tvParkingInfoMsg.setText("Fetching data ...");
         loadParkingDataOnScreen();
-        super.onResume();
-
     }
 
     private void loadParkingDataOnScreen() {
-
+        Log.e(TAG, "loadParkingDataOnScreen:");
+//        parkingList.clear();
         parkingViewModel.getAllParkings(sharedPrefs.getCurrentUser());
 
         parkingViewModel.parkingList.observe(getActivity(), new Observer<List<Parking>>() {
             @Override
             public void onChanged(List<Parking> parkings) {
-
+                Log.e(TAG, "onChanged: Fragment 1 " + parkings.size() + " docs changed");
                 parkingList.clear();
                 parkingList.addAll(parkings);
                 parkingListAdapter.notifyDataSetChanged();
-                binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
-//                updateParkingInfoLabel();
+//                binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
+                updateParkingInfoLabel();
             }
         });
 
+//        binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
 
-        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
-        binding.rcViewParkingList.setAdapter(parkingListAdapter);
-        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+//        binding.rcViewParkingList.setAdapter(parkingListAdapter);
+//        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
     }
 
-//    void updateParkingInfoLabel(){
-//
-//        if(this.parkingList.size() == 0){
-//            binding.tvParkingInfoMsg.setText("You do not have any parkings");
-//        }
-//        else {
-//            binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
-//        }
-//    }
+    void updateParkingInfoLabel(){
+
+        if(this.parkingList.size() == 0){
+            binding.tvParkingInfoMsg.setText("You do not have any parkings");
+        }
+        else {
+            binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
+        }
+    }
 
 
 }

@@ -139,4 +139,23 @@ public class LocationHelper {
         return null;
 
     }
+
+    public List<Address> getLocation(Context context, String locationName){
+
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addressList;
+
+        try{
+            addressList = geocoder.getFromLocationName(locationName, 3);
+
+            return addressList;
+
+        }
+        catch (Exception e){
+            Log.e(TAG, "getAddress: Exception:"+e.getLocalizedMessage());
+        }
+
+        return null;
+
+    }
 }
