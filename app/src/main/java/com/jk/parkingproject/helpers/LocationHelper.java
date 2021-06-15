@@ -8,9 +8,11 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -138,5 +140,18 @@ public class LocationHelper {
 
         return null;
 
+    }
+
+    @SuppressLint("MissingPermission")
+    public void requestLocationUpdates(Context context, LocationCallback locationCallback){
+        if (isLocationPermissionsGranted) {
+            try
+            {
+                getFusedLocationProviderClient(context).requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+            }
+            catch (Exception e){
+
+            }
+        }
     }
 }
