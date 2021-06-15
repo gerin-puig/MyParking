@@ -61,6 +61,9 @@ public class Fragment1 extends Fragment {
     @Override
     public void onResume() {
 
+        super.onResume();
+        binding.rcViewParkingList.invalidate();
+
         parkingList.clear();
         binding.tvParkingInfoMsg.setText("Fetching data ...");
         loadParkingDataOnScreen();
@@ -82,16 +85,26 @@ public class Fragment1 extends Fragment {
                 parkingList.clear();
                 parkingList.addAll(parkings);
                 parkingListAdapter.notifyDataSetChanged();
-                binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
-//                updateParkingInfoLabel();
+//                binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
+                updateParkingInfoLabel();
             }
         });
 
+//        binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
 
-        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
-        binding.rcViewParkingList.setAdapter(parkingListAdapter);
-        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+//        binding.rcViewParkingList.setAdapter(parkingListAdapter);
+//        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
+    }
+
+    void updateParkingInfoLabel(){
+
+        if(this.parkingList.size() == 0){
+            binding.tvParkingInfoMsg.setText("You do not have any parkings");
+        }
+        else {
+            binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
+        }
     }
 
     private void disableBackButton(){
@@ -112,16 +125,6 @@ public class Fragment1 extends Fragment {
             }
         });
     }
-
-//    void updateParkingInfoLabel(){
-//
-//        if(this.parkingList.size() == 0){
-//            binding.tvParkingInfoMsg.setText("You do not have any parkings");
-//        }
-//        else {
-//            binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
-//        }
-//    }
 
 
 }

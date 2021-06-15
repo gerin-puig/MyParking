@@ -17,6 +17,7 @@ public class ParkingViewModel extends AndroidViewModel {
     public static ParkingViewModel ourInstance;
     private  final ParkingRepository parkingRepository = new ParkingRepository();
     public MutableLiveData<List<Parking>> parkingList;
+    public MutableLiveData<Parking> currentParking;
     public MutableLiveData<String> currentUserCarPlateNUmber;
 
     public static ParkingViewModel getInstance(Application application){
@@ -39,6 +40,12 @@ public class ParkingViewModel extends AndroidViewModel {
     public void addParking(Parking parking){
         this.parkingRepository.addParking(parking);
 
+    }
+
+    public void getCurrentParking(String parkingId){
+
+        this.parkingRepository.getCurrentParking(parkingId);
+        this.currentParking = this.parkingRepository.currentParking;
     }
 
     public void getAllParkings(String currentUser){
