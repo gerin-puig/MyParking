@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.type.LatLng;
 import com.jk.parkingproject.databinding.ActivityParkingDetailsBinding;
 import com.jk.parkingproject.helpers.LocationHelper;
 import com.jk.parkingproject.models.Parking;
@@ -41,6 +42,7 @@ public class ParkingDetailsActivity extends AppCompatActivity implements View.On
 
         this.binding.btnDeleteParkingParkingDetails.setOnClickListener(this);
         this.binding.btnEditParkingParkingDetails.setOnClickListener(this);
+        binding.btnMap.setOnClickListener(this);
     }
 
     private void loadParkingInfoDetails() {
@@ -100,6 +102,12 @@ public class ParkingDetailsActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.btnDeleteParking_ParkingDetails:
                 deleteParking();
+                break;
+            case R.id.btnMap:
+                Intent i = new Intent(this, MapsActivity.class);
+                i.putExtra("parking_lat", currentParking.getLatitude());
+                i.putExtra("parking_long", currentParking.getLongitude());
+                startActivity(i);
                 break;
         }
     }
