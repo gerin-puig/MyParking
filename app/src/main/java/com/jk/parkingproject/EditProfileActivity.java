@@ -95,6 +95,10 @@ public class EditProfileActivity extends AppCompatActivity {
             binding.edPlateNumber.setError("Plate number Required.");
             isValid = false;
         }
+        else if(plateNum.length() < 2){
+            binding.edPlateNumber.setError("Plate number must be at least 2 characters long.");
+            isValid = false;
+        }
 
         return  isValid;
     }
