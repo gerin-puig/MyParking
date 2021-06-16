@@ -1,18 +1,16 @@
 package com.jk.parkingproject;
 
-import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.TextView;
 
+import com.jk.parkingproject.adapters.ParkingListAdapter;
 import com.jk.parkingproject.databinding.Fragment1LayoutBinding;
 import com.jk.parkingproject.models.Parking;
+import com.jk.parkingproject.shared.ParkingSharedPrefs;
 import com.jk.parkingproject.viewmodels.ParkingViewModel;
 
 import java.util.ArrayList;

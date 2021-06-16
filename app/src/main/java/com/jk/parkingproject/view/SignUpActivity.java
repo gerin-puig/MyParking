@@ -1,4 +1,4 @@
-package com.jk.parkingproject;
+package com.jk.parkingproject.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.jk.parkingproject.R;
 import com.jk.parkingproject.databinding.ActivitySignupBinding;
 import com.jk.parkingproject.models.ParkingUser;
 import com.jk.parkingproject.viewmodels.UserViewModel;

@@ -1,4 +1,4 @@
-package com.jk.parkingproject;
+package com.jk.parkingproject.view;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,11 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.type.LatLng;
+import com.jk.parkingproject.R;
 import com.jk.parkingproject.databinding.ActivityParkingDetailsBinding;
 import com.jk.parkingproject.helpers.LocationHelper;
 import com.jk.parkingproject.models.Parking;

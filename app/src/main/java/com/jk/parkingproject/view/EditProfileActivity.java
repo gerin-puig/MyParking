@@ -1,4 +1,4 @@
-package com.jk.parkingproject;
+package com.jk.parkingproject.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 

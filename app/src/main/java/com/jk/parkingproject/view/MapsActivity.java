@@ -1,4 +1,4 @@
-package com.jk.parkingproject;
+package com.jk.parkingproject.view;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.jk.parkingproject.R;
 import com.jk.parkingproject.databinding.ActivityMapsBinding;
 import com.jk.parkingproject.helpers.LocationHelper;
 

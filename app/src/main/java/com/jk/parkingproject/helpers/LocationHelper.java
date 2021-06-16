@@ -17,9 +17,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.jk.parkingproject.AddNewParking;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Locale;

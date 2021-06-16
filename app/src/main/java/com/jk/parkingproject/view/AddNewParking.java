@@ -1,27 +1,17 @@
-package com.jk.parkingproject;
+package com.jk.parkingproject.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -29,17 +19,12 @@ import com.jk.parkingproject.databinding.ActivityAddNewParkingBinding;
 import com.jk.parkingproject.databinding.SearchLocationBinding;
 import com.jk.parkingproject.helpers.LocationHelper;
 import com.jk.parkingproject.models.Parking;
+import com.jk.parkingproject.shared.ParkingSharedPrefs;
 import com.jk.parkingproject.viewmodels.ParkingViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 public class AddNewParking extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.jk.parkingproject;
+package com.jk.parkingproject.shared;
 
 import android.content.Context;
 import android.content.SharedPreferences;

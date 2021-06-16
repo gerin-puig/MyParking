@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity">
-
+    tools:context=".view.SignUpActivity">
 
     <Button
         android:id="@+id/btn_sign_up"
@@ -80,6 +79,7 @@
         android:maxLength="10"
         android:hint="Phone Number"
         android:inputType="number"
+
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -95,6 +95,7 @@
         android:hint="Plate Number"
         android:inputType="text"
         android:textAlignment="center"
+        android:maxLength="8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"

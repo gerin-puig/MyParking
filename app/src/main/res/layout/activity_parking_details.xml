@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ParkingDetailsActivity">
+    tools:context=".view.ParkingDetailsActivity">
 
 
 
@@ -262,7 +262,6 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/llEditDeleteParking_ParkingDetails"
         android:layout_width="match_parent"
@@ -283,7 +282,6 @@
             android:layout_height="wrap_content"
             android:text="Edit"
             android:layout_marginRight="10dp"
-
             />
 
         <Button

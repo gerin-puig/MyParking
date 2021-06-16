@@ -1,7 +1,6 @@
-package com.jk.parkingproject;
+package com.jk.parkingproject.view;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.view.View;
@@ -11,13 +10,10 @@ import com.jk.parkingproject.helpers.LocationHelper;
 import com.jk.parkingproject.models.Parking;
 import com.jk.parkingproject.viewmodels.ParkingViewModel;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ParkingListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

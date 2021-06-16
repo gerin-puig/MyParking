@@ -31,17 +31,17 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".view.MapsActivity"
             android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".ParkingDetailsActivity" />
-        <activity android:name=".AddNewParking" />
+        <activity android:name=".view.EditProfileActivity" />
+        <activity android:name=".view.ParkingDetailsActivity" />
+        <activity android:name=".view.AddNewParking" />
         <activity
-            android:name=".ParkingListActivity"
+            android:name=".view.ParkingListActivity"
             android:label="@string/title_activity_parking_list"
             android:theme="@style/Theme.ParkingProject.NoActionBar" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.SignUpActivity" />
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
