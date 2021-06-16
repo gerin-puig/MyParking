@@ -49,13 +49,12 @@ public class Fragment1 extends Fragment {
         parkingViewModel = ParkingViewModel.getInstance(getActivity().getApplication());
 
         parkingList = new ArrayList<>();
-
-//        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
-//        binding.rcViewParkingList.setAdapter(parkingListAdapter);
+        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
+        binding.rcViewParkingList.setAdapter(parkingListAdapter);
+        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        parkingViewModel.getAllParkings(sharedPrefs.getCurrentUser());
 
         loadParkingDataOnScreen();
-//        updateParkingInfoLabel();
-
     }
 
     @Override
@@ -67,7 +66,6 @@ public class Fragment1 extends Fragment {
         parkingList.clear();
         binding.tvParkingInfoMsg.setText("Fetching data ...");
         loadParkingDataOnScreen();
-        super.onResume();
 
         //disable the back button so user cant return to login w/o logout button
         disableBackButton();
@@ -75,26 +73,18 @@ public class Fragment1 extends Fragment {
     }
 
     private void loadParkingDataOnScreen() {
-
+        Log.e(TAG, "loadParkingDataOnScreen:");
         parkingViewModel.getAllParkings(sharedPrefs.getCurrentUser());
-
         parkingViewModel.parkingList.observe(getActivity(), new Observer<List<Parking>>() {
             @Override
             public void onChanged(List<Parking> parkings) {
-
+                Log.e(TAG, "onChanged: Fragment 1 " + parkings.size() + " docs changed");
                 parkingList.clear();
                 parkingList.addAll(parkings);
                 parkingListAdapter.notifyDataSetChanged();
-//                binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
                 updateParkingInfoLabel();
             }
         });
-
-//        binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
-
-//        binding.rcViewParkingList.setAdapter(parkingListAdapter);
-//        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-
     }
 
     void updateParkingInfoLabel(){
@@ -111,6 +101,7 @@ public class Fragment1 extends Fragment {
         if(getView() == null){
             return;
         }
+        
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {

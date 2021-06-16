@@ -155,15 +155,22 @@ public class LocationHelper {
         }
     }
 
-    public List<Address> getLocation(Context context, String locationName){
+    public Location getLocation(Context context, String locationName){
 
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         List<Address> addressList;
 
         try{
-            addressList = geocoder.getFromLocationName(locationName, 3);
-
-            return addressList;
+            addressList = geocoder.getFromLocationName(locationName, 1);
+            if(addressList != null){
+                Location location = new Location("");
+                location.setLatitude(addressList.get(0).getLatitude());
+                location.setLongitude(addressList.get(0).getLongitude());
+                return location;
+            }
+            else{
+                return null;
+            }
 
         }
         catch (Exception e){

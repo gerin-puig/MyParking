@@ -49,7 +49,7 @@ public class ParkingListViewHolder extends RecyclerView.ViewHolder implements Vi
         currentLocation.setLatitude(parkingList.get(position).getLatitude());
         currentLocation.setLongitude(parkingList.get(position).getLongitude());
         this.binding.tvParkingLocation.setText(locationHelper.getAddress(application.getApplicationContext(), currentLocation));
-        this.binding.tvParkingHours.setText(parkingList.get(position).getNoOfHours());
+        this.binding.tvParkingHours.setText(shortNoOfHoursFormat(parkingList.get(position).getNoOfHours()));
     }
 
 
@@ -66,6 +66,20 @@ public class ParkingListViewHolder extends RecyclerView.ViewHolder implements Vi
     private String formatDate(Date date){
 
         return DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(date);
+
+    }
+
+    private String shortNoOfHoursFormat(String noOfHours){
+
+        switch (noOfHours){
+
+            case "less than an hour": return "<1h";
+            case "less than 4 hours": return "<4h";
+            case "less than 12 hours": return "<12h";
+            case "24 hours": return "24h";
+            default: return "";
+
+        }
 
     }
 }

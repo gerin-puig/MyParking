@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.jk.parkingproject.databinding.ActivityAddNewParkingBinding;
+import com.jk.parkingproject.databinding.SearchLocationBinding;
 import com.jk.parkingproject.helpers.LocationHelper;
 import com.jk.parkingproject.models.Parking;
 import com.jk.parkingproject.viewmodels.ParkingViewModel;
@@ -90,7 +91,7 @@ public class AddNewParking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                showInputDialog();
+                showInputDialog();
 
             }
         });
@@ -243,6 +244,35 @@ public class AddNewParking extends AppCompatActivity {
     }
 
     protected void showInputDialog() {
+
+        SearchLocationBinding searchLocationBinding = SearchLocationBinding.inflate(getLayoutInflater());
+        View view = searchLocationBinding.getRoot();
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddNewParking.this);
+        alertDialogBuilder.setView(view);
+
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        if(!searchLocationBinding.etSearchLocation.getText().toString().trim().isEmpty()){
+                            lastLocation = locationHelper.getLocation(getApplicationContext(), searchLocationBinding.etSearchLocation.getText().toString());
+                            binding.tvParkingLocation.setText(locationHelper.getAddress(getApplicationContext(), lastLocation));
+                        }
+                        else{
+                            searchLocationBinding.etSearchLocation.setError("Please enter a location");
+                        }
+
+                    }
+
+                });
+        alertDialogBuilder.setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+
+        });
+        AlertDialog b = alertDialogBuilder.create();
+        b.show();
         
     }
 
