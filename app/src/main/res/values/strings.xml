@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ParkingProject</string>
+    <string name="app_name">Parking Saver</string>
     <string name="title_activity_parking_list">ParkingListActivity</string>
     <string name="tab_text_1">Active Parkings</string>
     <string name="tab_text_2">My Profile</string>

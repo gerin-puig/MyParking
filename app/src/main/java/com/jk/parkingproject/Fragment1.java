@@ -44,18 +44,17 @@ public class Fragment1 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         sharedPrefs = new ParkingSharedPrefs(getActivity().getApplicationContext());
         parkingViewModel = ParkingViewModel.getInstance(getActivity().getApplication());
-
         parkingList = new ArrayList<>();
-
+        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
+        binding.rcViewParkingList.setAdapter(parkingListAdapter);
+        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        parkingViewModel.getAllParkings(sharedPrefs.getCurrentUser());
 //        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
 //        binding.rcViewParkingList.setAdapter(parkingListAdapter);
-
         loadParkingDataOnScreen();
 //        updateParkingInfoLabel();
-
     }
 
     @Override
@@ -63,11 +62,11 @@ public class Fragment1 extends Fragment {
 
         super.onResume();
         binding.rcViewParkingList.invalidate();
-
+        Log.e(TAG, "onResume: resuming fragment");
         parkingList.clear();
         binding.tvParkingInfoMsg.setText("Fetching data ...");
         loadParkingDataOnScreen();
-        super.onResume();
+
 
         //disable the back button so user cant return to login w/o logout button
         disableBackButton();
@@ -75,13 +74,13 @@ public class Fragment1 extends Fragment {
     }
 
     private void loadParkingDataOnScreen() {
-
+        Log.e(TAG, "loadParkingDataOnScreen:");
+//        parkingList.clear();
         parkingViewModel.getAllParkings(sharedPrefs.getCurrentUser());
-
         parkingViewModel.parkingList.observe(getActivity(), new Observer<List<Parking>>() {
             @Override
             public void onChanged(List<Parking> parkings) {
-
+                Log.e(TAG, "onChanged: Fragment 1 " + parkings.size() + " docs changed");
                 parkingList.clear();
                 parkingList.addAll(parkings);
                 parkingListAdapter.notifyDataSetChanged();
@@ -90,15 +89,9 @@ public class Fragment1 extends Fragment {
             }
         });
 
-//        binding.tvParkingInfoMsg.setText(parkingList.size()+" Parking(s) available");
-
-//        binding.rcViewParkingList.setAdapter(parkingListAdapter);
-//        binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-
     }
 
     void updateParkingInfoLabel(){
-
         if(this.parkingList.size() == 0){
             binding.tvParkingInfoMsg.setText("You do not have any parkings");
         }
