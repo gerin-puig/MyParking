@@ -12,6 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class ParkingViewModel extends AndroidViewModel {
 
     public static ParkingViewModel ourInstance;

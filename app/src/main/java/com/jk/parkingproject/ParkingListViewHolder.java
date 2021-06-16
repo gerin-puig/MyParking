@@ -20,6 +20,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class ParkingListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     RowLayoutBinding binding;

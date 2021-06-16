@@ -17,6 +17,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.jk.parkingproject.databinding.ActivityMapsBinding;
 import com.jk.parkingproject.helpers.LocationHelper;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;

@@ -10,6 +10,11 @@ import com.jk.parkingproject.databinding.ActivitySignupBinding;
 import com.jk.parkingproject.models.ParkingUser;
 import com.jk.parkingproject.viewmodels.UserViewModel;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivitySignupBinding binding;
 
