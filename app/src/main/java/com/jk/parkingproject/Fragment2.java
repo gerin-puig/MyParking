@@ -28,6 +28,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class Fragment2 extends Fragment implements View.OnClickListener {
     private Fragment2LayoutBinding binding;
 

@@ -15,6 +15,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.jk.parkingproject.R;
 
 /**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
+/**
  * A placeholder fragment containing a simple view.
  */
 public class PlaceholderFragment extends Fragment {

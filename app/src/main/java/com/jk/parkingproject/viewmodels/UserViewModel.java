@@ -9,6 +9,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.jk.parkingproject.models.ParkingUser;
 import com.jk.parkingproject.repository.ParkingRepository;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class UserViewModel extends AndroidViewModel {
     private static UserViewModel myInstance;
     private final ParkingRepository parkingRepository = new ParkingRepository();

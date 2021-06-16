@@ -2,6 +2,7 @@ package com.jk.parkingproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 import android.content.Context;
@@ -19,8 +20,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.jk.parkingproject.databinding.ActivityMainBinding;
+import com.jk.parkingproject.models.ParkingUser;
 import com.jk.parkingproject.viewmodels.UserViewModel;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityMainBinding binding;
 
@@ -90,6 +96,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 if (aBoolean) {
+                    userViewModel.getUser(email);
+                    userViewModel.myUser.observe(MainActivity.this, new Observer<ParkingUser>() {
+                        @Override
+                        public void onChanged(ParkingUser parkingUser) {
+                            parkingUser.setActive(true);
+                            userViewModel.updateUser(parkingUser, getApplicationContext());
+                        }
+                    });
+
                     psp.setCurrentUser(email);
                     psp.saveUserInfo(email,password,isRemembered);
                     Intent intent = new Intent(MainActivity.this, ParkingListActivity.class);

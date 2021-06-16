@@ -40,6 +40,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class AddNewParking extends AppCompatActivity {
 
     ActivityAddNewParkingBinding binding;

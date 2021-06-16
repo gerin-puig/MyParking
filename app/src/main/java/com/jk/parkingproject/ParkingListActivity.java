@@ -22,6 +22,11 @@ import android.view.Window;
 
 import com.jk.parkingproject.ui.main.SectionsPagerAdapter;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class ParkingListActivity extends AppCompatActivity {
 
     private String currentUserEmail = "";
