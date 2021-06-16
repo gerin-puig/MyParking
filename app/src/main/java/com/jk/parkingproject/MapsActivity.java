@@ -57,12 +57,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 for(Location location: locationResult.getLocations()){
-                    parkingLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    //parkingLocation = new LatLng(location.getLatitude(), location.getLongitude());
                     //locationHelper.getAddress(getApplicationContext(), location);
                     //Log.d(TAG, "onLocationResult: update location " + location.toString());
 
                     mMap.addMarker(new MarkerOptions().position(parkingLocation).title("Parking Spot"));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(parkingLocation, 18.0f));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parkingLocation, 18.0f));
                 }
             }
         };
@@ -82,7 +82,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
+        //googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        LatLng loc = new LatLng(parkingLocation.latitude, parkingLocation.longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
     }
 }
