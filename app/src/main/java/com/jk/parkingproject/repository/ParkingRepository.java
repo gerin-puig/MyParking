@@ -328,6 +328,7 @@ public class ParkingRepository {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                isAuthSignUpSuccessful.postValue(false);
             }
         });
     }
@@ -341,6 +342,7 @@ public class ParkingRepository {
             data.put("last_name", user.getLast_name());
             data.put("phone_number", user.getPhone_number());
             data.put("plate_number", user.getPlate_number());
+            data.put("isActive", true);
 
             signUpUser(user.getEmail(),user.getPassword(), context);
 
@@ -362,8 +364,6 @@ public class ParkingRepository {
                     }
                 }
             });
-
-
 
         }catch (Exception e){
             Log.d(TAG1, "addUser: " + e.getLocalizedMessage());

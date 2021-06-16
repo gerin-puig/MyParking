@@ -82,6 +82,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             binding.editPlateNumber.setError("Plate Number Required.");
             isValid = false;
         }
+        else if(plateNum.length() < 2){
+            binding.editPlateNumber.setError("Plate needs at least 2 characters.");
+            isValid = false;
+        }
+
         return  isValid;
     }
 
