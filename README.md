@@ -12,7 +12,7 @@ Rajdeep - Everything related to parking
 
 Gerin - Everything related to user
 -> Front end: Add ParUserking, User Profile page, Edit User, Delete User.
--> Back end:  Firebase implementation for above all. 
+-> Back end:  Firebase implementation for above all. Google Map Implementation.
 
 # Screenshots
 
