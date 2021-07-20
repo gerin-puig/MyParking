@@ -94,6 +94,7 @@
         android:ems="10"
         android:hint="Plate Number"
         android:inputType="text"
+        android:maxLength="8"
         android:textAlignment="center"
         android:maxLength="8"
         app:layout_constraintEnd_toEndOf="parent"

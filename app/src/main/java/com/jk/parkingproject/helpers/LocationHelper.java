@@ -25,6 +25,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
 
 public class LocationHelper {
 

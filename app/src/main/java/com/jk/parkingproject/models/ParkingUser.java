@@ -2,6 +2,10 @@ package com.jk.parkingproject.models;
 
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
 
 public class ParkingUser implements Serializable {
     private String id;

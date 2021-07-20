@@ -32,6 +32,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+<<<<<<< HEAD
+=======
+
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+>>>>>>> cc5d1b72f5ab636e1915d59f8cda5f54c5a6c69c
 
 public class ParkingRepository {
 
@@ -325,6 +333,7 @@ public class ParkingRepository {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                isAuthSignUpSuccessful.postValue(false);
             }
         });
     }
@@ -338,6 +347,7 @@ public class ParkingRepository {
             data.put("last_name", user.getLast_name());
             data.put("phone_number", user.getPhone_number());
             data.put("plate_number", user.getPlate_number());
+            data.put("isActive", true);
 
             signUpUser(user.getEmail(),user.getPassword(), context);
 
@@ -359,8 +369,6 @@ public class ParkingRepository {
                     }
                 }
             });
-
-
 
         }catch (Exception e){
             Log.d(TAG1, "addUser: " + e.getLocalizedMessage());

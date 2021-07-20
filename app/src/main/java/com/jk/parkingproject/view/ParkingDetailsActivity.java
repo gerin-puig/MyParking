@@ -20,6 +20,11 @@ import com.jk.parkingproject.viewmodels.ParkingViewModel;
 import java.text.DateFormat;
 import java.util.Date;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class ParkingDetailsActivity extends AppCompatActivity implements View.OnClickListener{
 
     ActivityParkingDetailsBinding binding;

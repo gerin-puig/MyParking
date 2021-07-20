@@ -5,6 +5,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Pair;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class ParkingSharedPrefs {
     private SharedPreferences shared;
     private SharedPreferences.Editor editor;

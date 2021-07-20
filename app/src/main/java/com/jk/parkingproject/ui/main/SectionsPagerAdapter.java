@@ -13,6 +13,11 @@ import com.jk.parkingproject.Fragment2;
 import com.jk.parkingproject.R;
 
 /**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
+/**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */

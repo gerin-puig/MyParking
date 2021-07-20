@@ -21,6 +21,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class Fragment2 extends Fragment implements View.OnClickListener {
     private Fragment2LayoutBinding binding;
 

@@ -26,6 +26,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class AddNewParking extends AppCompatActivity {
 
     ActivityAddNewParkingBinding binding;

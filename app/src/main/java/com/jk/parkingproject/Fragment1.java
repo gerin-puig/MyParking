@@ -22,6 +22,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
+
 public class Fragment1 extends Fragment {
 
     private Fragment1LayoutBinding binding;
@@ -42,17 +47,22 @@ public class Fragment1 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         sharedPrefs = new ParkingSharedPrefs(getActivity().getApplicationContext());
         parkingViewModel = ParkingViewModel.getInstance(getActivity().getApplication());
-
         parkingList = new ArrayList<>();
         parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
         binding.rcViewParkingList.setAdapter(parkingListAdapter);
         binding.rcViewParkingList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         parkingViewModel.getAllParkings(sharedPrefs.getCurrentUser());
+<<<<<<< HEAD
 
         loadParkingDataOnScreen();
+=======
+//        parkingListAdapter = new ParkingListAdapter(parkingList, getActivity().getApplication());
+//        binding.rcViewParkingList.setAdapter(parkingListAdapter);
+        loadParkingDataOnScreen();
+//        updateParkingInfoLabel();
+>>>>>>> cc5d1b72f5ab636e1915d59f8cda5f54c5a6c69c
     }
 
     @Override
@@ -60,10 +70,14 @@ public class Fragment1 extends Fragment {
 
         super.onResume();
         binding.rcViewParkingList.invalidate();
-
+        Log.e(TAG, "onResume: resuming fragment");
         parkingList.clear();
         binding.tvParkingInfoMsg.setText("Fetching data ...");
         loadParkingDataOnScreen();
+<<<<<<< HEAD
+=======
+
+>>>>>>> cc5d1b72f5ab636e1915d59f8cda5f54c5a6c69c
 
         //disable the back button so user cant return to login w/o logout button
         disableBackButton();
@@ -72,6 +86,10 @@ public class Fragment1 extends Fragment {
 
     private void loadParkingDataOnScreen() {
         Log.e(TAG, "loadParkingDataOnScreen:");
+<<<<<<< HEAD
+=======
+//        parkingList.clear();
+>>>>>>> cc5d1b72f5ab636e1915d59f8cda5f54c5a6c69c
         parkingViewModel.getAllParkings(sharedPrefs.getCurrentUser());
         parkingViewModel.parkingList.observe(getActivity(), new Observer<List<Parking>>() {
             @Override
@@ -83,10 +101,13 @@ public class Fragment1 extends Fragment {
                 updateParkingInfoLabel();
             }
         });
+<<<<<<< HEAD
+=======
+
+>>>>>>> cc5d1b72f5ab636e1915d59f8cda5f54c5a6c69c
     }
 
     void updateParkingInfoLabel(){
-
         if(this.parkingList.size() == 0){
             binding.tvParkingInfoMsg.setText("You do not have any parkings");
         }

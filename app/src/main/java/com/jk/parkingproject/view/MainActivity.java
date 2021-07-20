@@ -1,6 +1,7 @@
 package com.jk.parkingproject.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 import android.content.Intent;
@@ -9,9 +10,17 @@ import android.view.View;
 
 import com.jk.parkingproject.R;
 import com.jk.parkingproject.databinding.ActivityMainBinding;
+<<<<<<< HEAD:app/src/main/java/com/jk/parkingproject/view/MainActivity.java
 import com.jk.parkingproject.shared.ParkingSharedPrefs;
+=======
+import com.jk.parkingproject.models.ParkingUser;
+>>>>>>> cc5d1b72f5ab636e1915d59f8cda5f54c5a6c69c:app/src/main/java/com/jk/parkingproject/MainActivity.java
 import com.jk.parkingproject.viewmodels.UserViewModel;
 
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityMainBinding binding;
 
@@ -81,6 +90,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 if (aBoolean) {
+                    userViewModel.getUser(email);
+                    userViewModel.myUser.observe(MainActivity.this, new Observer<ParkingUser>() {
+                        @Override
+                        public void onChanged(ParkingUser parkingUser) {
+                            parkingUser.setActive(true);
+                            userViewModel.updateUser(parkingUser, getApplicationContext());
+                        }
+                    });
+
                     psp.setCurrentUser(email);
                     psp.saveUserInfo(email,password,isRemembered);
                     Intent intent = new Intent(MainActivity.this, ParkingListActivity.class);

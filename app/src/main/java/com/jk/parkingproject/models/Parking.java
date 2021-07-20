@@ -3,6 +3,10 @@ package com.jk.parkingproject.models;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
+/**
+ * Gerin Puig - 101343659
+ * Rajdeep Dodiya - 101320088
+ */
 
 public class Parking implements Serializable {
 
