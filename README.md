@@ -1,6 +1,8 @@
 # MyParking
 Android Parking Project
 
+This app makes use of Location services to let users add, edit and remove their car's parkings. All  data including user's carplate number, parking location, Date & Time is stored in Firebase. 
+
 Database used: 
 Firebase
 
